@@ -1,0 +1,49 @@
+﻿@model orcafit.Models.Rutina
+
+@{
+    ViewBag.ViewName = "Dev";
+}
+
+<div class="w-100" style="position: relative; top: -86px;">
+    <div class="container">
+        <h1>CreateRutina</h1>
+        <div>
+            <a asp-action="VistaRutinas">Back to List</a>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="CreateRutina" enctype="multipart/form-data" method="post">
+                    <div class="form-group mb-2">
+                        <label asp-for="Nombre" class="control-label"></label>
+                        <input asp-for="Nombre" class="form-control" />
+                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label asp-for="RutinaTexto" class="control-label"></label>
+                        <textarea asp-for="RutinaTexto" class="form-control"></textarea>
+                        <span asp-validation-for="RutinaTexto" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label asp-for="Video" class="control-label"></label>
+                        <input asp-for="Video" class="form-control" type="file" />
+                        <span asp-validation-for="Video" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label asp-for="Imagen" class="control-label"></label>
+                        <input asp-for="Imagen" class="form-control" type="file"/>
+                        <span asp-validation-for="Imagen" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label asp-for="Categoria" class="control-label"></label>
+                        <input asp-for="Categoria" class="form-control" />
+                        <span asp-validation-for="Categoria" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

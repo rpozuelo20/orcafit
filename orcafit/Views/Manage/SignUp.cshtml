@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.ViewName = "SignUp";
+}
+@section css{
+    <link href="~/css/home.css" rel="stylesheet" />
+}
+
+<div class="w-100 d-flex align-items-center justify-content-center bg-custom-routine" style="min-height: 100vh; position: relative; margin-top: -86px;">
+    <div class="container px-4 d-flex align-items-center justify-content-center">
+        <div class="p-5 rounded-3 bg-white col-lg-6 border" style="max-width: 410px;">
+            <h2 class="fw-medium mb-5">Sign up now:</h2>
+            <form method="post">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control rounded-4" id="floatingInput" name="username" placeholder="Username">
+                    <label for="floatingInput">Username</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control rounded-4" id="floatingPassword" name="password" placeholder="Password">
+                    <label for="floatingPassword">Password</label>
+                </div>
+                <small class="text-muted">@ViewData["MENSAJE"]</small>
+                <button class="w-100 my-2 btn btn-lg rounded-4 btn-primary fw-medium" type="submit">Sign up</button>
+                <small class="text-muted">By clicking Sign up, you agree to the terms of use.</small>
+                <a asp-action="LogIn">
+                    <small class="text-muted text-decoration-underline">
+                        Do you have an account? LogIn
+                    </small>
+                </a>
+            </form>
+        </div>
+    </div>
+</div>

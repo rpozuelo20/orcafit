@@ -1,0 +1,20 @@
+﻿*:focus {
+    border-color: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.fw-medium {
+    font-weight: 600 !important;
+}
+
+.drop-position {
+    right: 0 !important;
+    left: auto !important;
+}
+@media (max-width: 600px) {
+    .drop-position {
+        right: auto !important;
+        left: 0 !important;
+    }
+}

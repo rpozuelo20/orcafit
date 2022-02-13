@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.ViewName = "Home";
+}
+@section css{ 
+    <link href="~/css/home.css" rel="stylesheet" />
+}
+
+<div class="w-100 bg-custom-routine" style="min-height: calc(100vh - 86px);">
+    <div class="container col px-4 py-5">
+        <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+            <div class="col-10 col-sm-8 col-lg-6">
+                <img src="~/lib/images/home/DigZXMIWsAY7L8v.jpg" class="d-block mx-lg-auto img-fluid bg-dark rounded-3 shadow" width="700" height="500" loading="lazy">
+            </div>
+            <div class="col-lg-6">
+                <h1 class="display-5 fw-bold lh-1 mb-3 text-light">Responsive left-aligned hero with image</h1>
+                <p class="lead text-light">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins.</p>
+                <form class="w-100 d-flex align-items-end justify-content-start pt-3">
+                    <div style="max-width: calc(100% - 98.7833px);" class="w-100">
+                        <label for="notifyMe" class="form-label fw-medium text-light">Si desea recibir cualquier información adicional, háganoslo saber:</label>
+                        <input type="email" class="form-control" id="notifyMe" placeholder="Email Address"
+                               style="border-radius:.25rem 0rem 0rem .25rem;" required>
+                    </div>
+                    <button class="btn btn-primary fw-medium"
+                            style="border-radius:0rem .25rem .25rem 0rem;">Notifícame</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

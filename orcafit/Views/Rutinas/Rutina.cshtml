@@ -1,0 +1,74 @@
+﻿@model Rutina
+
+@{
+    if(Model != null)
+            {
+                ViewBag.ViewName = Model.Nombre;
+            }
+            else
+            {
+                ViewBag.ViewName = "Rutina";
+            }
+
+    ViewBag.CategoriaRutina = Model.Categoria;
+}
+
+<div class="w-100" style="min-height: calc(100vh - 86px);">
+    <div class="container col px-4 py-5">
+        <div class="row align-items-start g-5 py-5 px-4">
+            @if (Model.Video != null)
+            {
+                <video class="w-100" style="height: 50vw; max-height: 660px; min-height: 220px; margin-top: 0px; padding-right: 0 !important; padding-left: 0 !important; background-color: black;" controls>
+                    <source src="~/videos/@Model.Video" type="video/mp4" />
+                </video>
+            }
+            else
+            {
+                <div class="w-100 bg-dark d-flex align-items-center justify-content-center" style="height: 50vw; max-height: 720px; margin-top: 0px;">
+                    <h2 class="text-light fw-bold">Vídeo no disponible</h2>
+                </div>
+            }
+        </div>
+            <div class="row flex-lg-row align-items-start g-5 p-0">
+                <div class="col-lg-8 p-3 px-4 pb-0">
+                    <h2 class="fw-medium mb-3">@Model.Nombre</h2>
+                    <p>@Html.Raw(Model.RutinaTexto)</p>
+                </div>
+                <div class="col-lg-4 p-3 pb-0 px-4">
+                    @foreach (Rutina item in ViewBag.Rutinas)
+                    {
+                        if (item.Categoria == ViewBag.CategoriaRutina && item.IdRutina != Model.IdRutina)
+                        {
+                            <div class="card mb-3">
+                                <img class="bd-placeholder-img card-img-top w-100" style="object-fit: cover;" src="~/images/@item.Imagen" height="225" />
+                                <div class="card-body">
+                                    <p class="card-text lead fw-medium">@item.Nombre</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group w-100">
+                                            <a class="btn w-100 btn-primary fw-medium"
+                                               asp-action="Rutina" asp-route-id="@item.IdRutina">Empezar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else if (item.IdRutina != Model.IdRutina)
+                        {
+                            <div class="card mb-3">
+                                <img class="bd-placeholder-img card-img-top w-100" style="object-fit: cover;" src="~/images/@item.Imagen" height="225" />
+                                <div class="card-body">
+                                    <p class="card-text lead fw-medium">@item.Nombre</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group w-100">
+                                            <a class="btn w-100 btn-primary fw-medium"
+                                               asp-action="Rutina" asp-route-id="@item.IdRutina">Empezar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+    </div>
+</div>

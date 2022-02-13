@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.ViewName = "Error";
+}
+
+<div class="w-100" style="min-height: calc(100vh - 86px);">
+        <div class="container px-4 py-5 d-flex align-items-center justify-content-center">
+            <div class="p-5 rounded-3 bg-white col-lg-6 border">
+                <h2 class="fw-medium mb-3">Error de acceso</h2>
+                <p>No dispones de <span class="fw-medium">permisos suficientes</span> para acceder a la siguiente vista.</p>
+                <a class="btn w-100 btn-primary fw-medium"
+                   asp-controller="Home" asp-action="index">Volver</a>
+            </div>
+        </div>
+</div>

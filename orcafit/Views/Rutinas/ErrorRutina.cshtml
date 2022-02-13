@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.ViewName = "Error";
+}
+
+<div class="w-100" style="min-height: calc(100vh - 86px);">
+    <div class="container px-4 py-5 d-flex align-items-center justify-content-center">
+        <div class="p-5 rounded-3 bg-white col-lg-6 border">
+            <h2 class="fw-medium mb-3">Error al recuperar la rutina</h2>
+            <p>La rutina a la que estás intentando acceder <span class="fw-medium">no existe</span>, lamentamos los inconvenientes causados.</p>
+            <a class="btn w-100 btn-primary fw-medium"
+               asp-controller="Rutinas" asp-action="Rutinas">Volver</a>
+        </div>
+    </div>
+</div>

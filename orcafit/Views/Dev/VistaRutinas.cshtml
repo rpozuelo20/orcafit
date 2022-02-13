@@ -1,0 +1,76 @@
+﻿@model IEnumerable<orcafit.Models.Rutina>
+
+@{
+    ViewBag.ViewName = "Dev";
+}
+
+<div class="w-100" style="position: relative; top: -86px;">
+    <div class="container">
+        <h1>VistaRutinas</h1>
+        <div>
+            <a asp-action="CreateRutina">Create New</a>
+        </div>
+        <hr />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IdRutina)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Nombre)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.RutinaTexto)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Video)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Imagen)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Categoria)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Fecha)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdRutina)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RutinaTexto)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Video)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Imagen)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Categoria)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Fecha)
+                        </td>
+                        <td>
+                            <a asp-action="DeleteRutina" asp-route-id="@item.IdRutina" asp-route-imagen="@item.Imagen" asp-route-video="@item.Video">
+                                Delete
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

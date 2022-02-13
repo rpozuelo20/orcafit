@@ -1,0 +1,98 @@
+﻿@{ 
+    if(Context.User.Identity.IsAuthenticated==false)
+    {
+        ViewBag.UserRole = null;
+    } else
+    {
+        ViewBag.UserRole = Context.User.FindFirst(ClaimTypes.Role).Value.ToString();
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.ViewName - orcafit</title>
+
+    <link href="~/lib/bootstrap/css/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/site-custom.css" rel="stylesheet" />
+    <link href="~/css/offcanvas.css" rel="stylesheet" />
+    @RenderSection("css", required: false)
+</head>
+<body class="bg-white">
+    @if (ViewBag.ViewName != "Dev" && ViewBag.ViewName != "LogIn" && ViewBag.ViewName != "SignUp")
+    {
+            <nav class="navbar navbar-expand-md navbar-light fixed-top bg-white py-4">
+                <div class="container" >
+                    <a class="navbar-brand d-flex align-items-center justify-content-center"
+                       asp-controller="Home" asp-action="Index">
+                        <img class="bi me-2" height="20" src="~/lib/svg/orcafit/orcafit.svg" />
+                    </a>
+                    <button class="navbar-toggler border-0 px-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <ul class="navbar-nav me-auto mb-2 mb-md-0 fw-medium">
+                            <li class="nav-item">
+                                <a class="nav-link py-1"
+                                   asp-controller="Rutinas" asp-action="Rutinas">Rutinas</a>
+                            </li>
+                        </ul>
+                        <div class="d-flex">
+                            @if (Context.User.Identity.IsAuthenticated == false)
+                            {
+                                <a class="btn w-100 btn-primary fw-medium"
+                                   asp-controller="Manage" asp-action="LogIn">Comenzar ahora</a>
+                            }
+                            else
+                            {
+                                <div class="dropdown">
+                                    <button class="fw-medium dropdown-toggle btn px-0" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                        @Context.User.Identity.Name.ToString()
+                                    </button>
+                                    <ul class="dropdown-menu drop-position" aria-labelledby="dropdownMenuButton1">
+                                        @if (ViewBag.UserRole == "admin") 
+                                        {
+                                        <li>
+                                            <a class="dropdown-item w-100"
+                                               asp-controller="Dev" asp-action="VistaRutinas">Administración</a>
+                                        </li>
+                                        }
+                                        <li><a class="dropdown-item w-100" 
+                                               asp-controller="Manage" asp-action="LogOut">Cerrar sesión</a></li>
+                                    </ul>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </nav>
+    }
+
+    <main role="main" class="position-relative w-100" style="padding-top: 86px; min-height: 100vh;">
+        @RenderBody()
+    </main>
+
+    @if (ViewBag.ViewName != "Dev" && ViewBag.ViewName != "LogIn" && ViewBag.ViewName != "SignUp")
+    {
+        <div class="container">
+            <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+                <div class="col-md-4 d-flex align-items-center">
+                    <span class="text-muted fw-medium">&copy; 2022 orcafit.</span>
+                </div>
+
+                <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+                    <li class="ms-3 d-flex align-items-center justify-content-center"><a class="text-muted" href="#"><i class="bi bi-twitter" width="24" height="24" style="font-size: 24px;"></i></a></li>
+                    <li class="ms-3 d-flex align-items-center justify-content-center"><a class="text-muted" href="#"><i class="bi bi-instagram" width="24" height="24" style="font-size: 24px;"></i></a></li>
+                </ul>
+            </footer>
+        </div>
+    }
+
+    <script src="~/lib/jquery/jquery-3.6.0.min.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>
