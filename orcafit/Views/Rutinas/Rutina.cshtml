@@ -33,6 +33,7 @@
                 <div class="col-lg-8 p-3 px-4 pb-0">
                     <h2 class="fw-medium mb-3">@Model.Nombre</h2>
                     <p>@Html.Raw(Model.RutinaTexto)</p>
+                        <p class="text-muted small">Categoría: @Model.Categoria.ToLower().</p>
                 </div>
                 <div class="col-lg-4 p-3 pb-0 px-4">
                     @foreach (Rutina item in ViewBag.Rutinas)

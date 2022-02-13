@@ -44,7 +44,7 @@ namespace orcafit.Controllers
             return View();
         }
         [HttpPost]
-        [RequestFormLimits(MultipartBodyLengthLimit = 104857600)]
+        [RequestFormLimits(MultipartBodyLengthLimit = 4294967295)]
         public async Task<IActionResult> CreateRutina
             (string nombre, string rutinatexto, IFormFile video, IFormFile imagen, string categoria)
         {
