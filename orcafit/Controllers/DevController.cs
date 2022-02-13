@@ -35,8 +35,8 @@ namespace orcafit.Controllers
         {
             this.repo.DeleteRutina(id);
             
-            System.IO.File.Delete("wwwroot/images/"+imagen);
-            System.IO.File.Delete("wwwroot/videos/"+video);
+            System.IO.File.Delete("wwwroot/uploadFiles/images/"+imagen);
+            System.IO.File.Delete("wwwroot/uploadFiles/videos/"+video);
             return RedirectToAction("VistaRutinas");
         }
         public IActionResult CreateRutina()

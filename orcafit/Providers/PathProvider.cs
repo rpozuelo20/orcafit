@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace betari_app.Providers
 {
-    public enum Folders { Images=0, Videos=1, Users=2 }
+    public enum Folders { Images = 0, Videos = 1 }
     public class PathProvider
     {
         private IWebHostEnvironment hostEnvironment;
@@ -22,15 +22,11 @@ namespace betari_app.Providers
             string carpeta = "";
             if (folder == Folders.Videos)
             {
-                carpeta = "videos";
+                carpeta = "uploadFiles/videos";
             }
             else if (folder == Folders.Images)
             {
-                carpeta = Path.Combine("images");
-            }
-            else if (folder == Folders.Users)
-            {
-                carpeta = Path.Combine("images", "users");
+                carpeta = "uploadFiles/images";
             }
             string path = Path.Combine
                 (this.hostEnvironment.WebRootPath, carpeta, fileName);
