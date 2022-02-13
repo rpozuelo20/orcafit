@@ -47,6 +47,12 @@ namespace orcafit.Repositories
             }
         }
 
+        public List<Categoria> GetCategorias() 
+        {
+            var consulta = from datos in this.context.Categorias
+                           select datos;
+            return consulta.ToList();
+        }
         public Rutina GetRutina(int id)
         {
             return this.context.Rutinas.SingleOrDefault(x => x.IdRutina == id);

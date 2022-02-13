@@ -8,6 +8,7 @@ namespace orcafit.Repositories
 {
     public interface IRepositoryRutinas
     {
+        List<Categoria> GetCategorias();
         Rutina GetRutina(int id);
         int InsertRutina
             (string nombre, string rutinatexto, string video, string imagen, string categoria);

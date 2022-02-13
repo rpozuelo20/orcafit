@@ -27,7 +27,8 @@ namespace orcafit.Controllers
         public IActionResult Rutinas()
         {
             List<Rutina> rutinas = this.repo.GetRutinas();
-
+            List<Categoria> categorias = this.repo.GetCategorias();
+            ViewBag.Categorias = categorias;
             return View(rutinas);
         }
         [AuthorizeUsuarios]
