@@ -7,21 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-#region PROCEDURES RUTINAS
-/*
-create procedure SP_ALL_RUTINAS
-as
-	select * from RUTINAS
-go
-
-create procedure SP_DELETE_RUTINA(@IDRUTINA int)
-as
-	delete from RUTINAS
-	where RUTINA_NO=1
-go
-*/
-#endregion
-
 namespace orcafit.Repositories
 {
     public class RepositoryRutinas : IRepositoryRutinas
@@ -77,8 +62,8 @@ namespace orcafit.Repositories
         }
         public List<Rutina> GetRutinas()
         {
-            string sql = "SP_ALL_RUTINAS";
-            var consulta = this.context.Rutinas.FromSqlRaw(sql);
+            var consulta = from datos in this.context.Rutinas
+                           select datos;
             return consulta.ToList();
         }
         public void DeleteRutina(int id)
