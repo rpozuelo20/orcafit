@@ -8,3 +8,9 @@
     background: none !important;
     visibility: hidden !important;
 }
+.last-child-nomargin > div:last-child{
+    margin-bottom: 0px !important;
+}
+.first-child-nomargin > h2:first-child{
+    margin-top: 0px !important;
+}

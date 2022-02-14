@@ -41,6 +41,8 @@ namespace orcafit.Controllers
         }
         public IActionResult CreateRutina()
         {
+            List<Categoria> categorias = this.repo.GetCategorias();
+            ViewBag.Categorias = categorias;
             return View();
         }
         [HttpPost]

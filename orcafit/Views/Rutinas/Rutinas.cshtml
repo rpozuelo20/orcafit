@@ -1,5 +1,7 @@
 ﻿@model List<Rutina>
-
+@section css{
+    <link href="~/css/rutinas.css" rel="stylesheet" />
+}
 @{
     ViewBag.ViewName = "Rutinas";
 }
@@ -8,37 +10,43 @@
 
     @if (Model.Count() != 0)
     {
-    <div class="container px-4 py-5">
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
-
-            @foreach (Rutina item in Model)
-            {
-            <div class="col">
-                <div class="card">
-                    <img class="bd-placeholder-img card-img-top w-100" style="object-fit: cover;" src="~/uploadFiles/images/@item.Imagen" height="225" />
-                    <div class="card-body">
-                        <p class="card-text lead fw-medium">@item.Nombre</p>
-                        @*<p class="card-text">
-                            @if (item.RutinaTexto.Length >= 250)
-                            {
-                                @Html.Raw(item.RutinaTexto.ToString().Substring(0, 250))
-                            }
-                            else
-                            {
-                                @Html.Raw(item.RutinaTexto.ToString())
-                            }…
-                        </p>*@
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group w-100">
-                                <a class="btn w-100 btn-primary fw-medium"
-                                   asp-action="Rutina" asp-route-id="@item.IdRutina">Empezar</a>
+    <div class="container p-4 first-child-nomargin">
+        @foreach (Categoria cat in ViewBag.Categorias)
+        {
+            <h2 class="fw-medium mb-3 mt-4">Rutinas para trabajar @cat.Nombre.ToLower()</h2>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+                @foreach (Rutina item in Model)
+                {
+                    @if (item.Categoria == cat.Nombre)
+                    {
+                        <div class="col">
+                            <div class="card">
+                                <img class="bd-placeholder-img card-img-top w-100" style="object-fit: cover;" src="~/uploadFiles/images/@item.Imagen" height="225" />
+                                <div class="card-body">
+                                    <p class="card-text lead fw-medium">@item.Nombre</p>
+                                    @*<p class="card-text">
+                                        @if (item.RutinaTexto.Length >= 250)
+                                        {
+                                            @Html.Raw(item.RutinaTexto.ToString().Substring(0, 250))
+                                        }
+                                        else
+                                        {
+                                            @Html.Raw(item.RutinaTexto.ToString())
+                                        }…
+                                    </p>*@
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group w-100">
+                                            <a class="btn w-100 btn-primary fw-medium"
+                                               asp-action="Rutina" asp-route-id="@item.IdRutina">Empezar</a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    }
+                }
             </div>
-            }
-        </div>
+        }
     </div>
     }
     else
