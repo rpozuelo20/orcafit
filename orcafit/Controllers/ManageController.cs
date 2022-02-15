@@ -26,12 +26,14 @@ namespace orcafit.Controllers
         {
             return View();
         }
+
         public async Task<IActionResult> LogOut()
         {
             await HttpContext.SignOutAsync
                 (CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Home");
         }
+
         public IActionResult LogIn()
         {
             return View();
@@ -60,8 +62,8 @@ namespace orcafit.Controllers
                 ViewData["MENSAJE"] = "Wrong username or password.";
             }
             return View();
-
         }
+
         public IActionResult SignUp()
         {
             return View();
@@ -79,7 +81,6 @@ namespace orcafit.Controllers
             {
                 ViewData["MENSAJE"] = "The user already exist.";
             }
-            
             return View();
         }
     }

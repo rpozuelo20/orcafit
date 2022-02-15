@@ -31,14 +31,15 @@ namespace orcafit.Controllers
             List<Rutina> rutinas = this.repo.GetRutinas();
             return View(rutinas);
         }
+
         public IActionResult DeleteRutina(int id, string imagen, string video)
         {
             this.repo.DeleteRutina(id);
-            
             System.IO.File.Delete("wwwroot/uploadFiles/images/"+imagen);
             System.IO.File.Delete("wwwroot/uploadFiles/videos/"+video);
             return RedirectToAction("VistaRutinas");
         }
+
         public IActionResult CreateRutina()
         {
             List<Categoria> categorias = this.repo.GetCategorias();

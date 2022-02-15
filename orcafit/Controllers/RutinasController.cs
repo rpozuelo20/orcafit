@@ -19,11 +19,13 @@ namespace orcafit.Controllers
         }
         //  Sentencias comunes en los controllers   ˄˄˄
 
+
         [AuthorizeUsuarios]
         public IActionResult ErrorRutina()
         {
             return View();
         }
+
         public IActionResult Rutinas()
         {
             List<Rutina> rutinas = this.repo.GetRutinas();
@@ -31,6 +33,7 @@ namespace orcafit.Controllers
             ViewBag.Categorias = categorias;
             return View(rutinas);
         }
+
         [AuthorizeUsuarios]
         public IActionResult Rutina(int id)
         {

@@ -10,9 +10,9 @@ namespace orcafit.Repositories
     {
         List<Categoria> GetCategorias();
         Rutina GetRutina(int id);
+        List<Rutina> GetRutinas();
         int InsertRutina
             (string nombre, string rutinatexto, string video, string imagen, string categoria);
-        List<Rutina> GetRutinas();
         void DeleteRutina(int id);
     }
 }

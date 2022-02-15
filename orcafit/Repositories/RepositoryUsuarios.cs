@@ -30,21 +30,6 @@ namespace orcafit.Repositories
             }
         }
 
-        public Usuario ExisteUsername(string username)
-        {
-            var consulta = from datos in this.context.Usuarios
-                           where datos.Username == username
-                           select datos;
-            return consulta.SingleOrDefault();
-        }
-        public Usuario ExisteUsuario(string username, string password)
-        {
-            var consulta = from datos in this.context.Usuarios
-                           where datos.Username == username
-                           && datos.Password == password
-                           select datos;
-            return consulta.SingleOrDefault();
-        }
         public int InsertUsuario(string username, string password)
         {
             int idusuario = this.GetMaxIdUsuario();
@@ -58,6 +43,21 @@ namespace orcafit.Repositories
             this.context.SaveChanges();
 
             return idusuario;
+        }
+        public Usuario ExisteUsuario(string username, string password)
+        {
+            var consulta = from datos in this.context.Usuarios
+                           where datos.Username == username
+                           && datos.Password == password
+                           select datos;
+            return consulta.SingleOrDefault();
+        }
+        public Usuario ExisteUsername(string username)
+        {
+            var consulta = from datos in this.context.Usuarios
+                           where datos.Username == username
+                           select datos;
+            return consulta.SingleOrDefault();
         }
     }
 }

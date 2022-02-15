@@ -38,9 +38,16 @@ namespace orcafit.Repositories
                            select datos;
             return consulta.ToList();
         }
+
         public Rutina GetRutina(int id)
         {
             return this.context.Rutinas.SingleOrDefault(x => x.IdRutina == id);
+        }
+        public List<Rutina> GetRutinas()
+        {
+            var consulta = from datos in this.context.Rutinas
+                           select datos;
+            return consulta.ToList();
         }
         public int InsertRutina
             (string nombre, string rutinatexto, string video, string imagen, string categoria)
@@ -59,12 +66,6 @@ namespace orcafit.Repositories
             this.context.SaveChanges();
 
             return idrutina;
-        }
-        public List<Rutina> GetRutinas()
-        {
-            var consulta = from datos in this.context.Rutinas
-                           select datos;
-            return consulta.ToList();
         }
         public void DeleteRutina(int id)
         {
