@@ -26,7 +26,7 @@ namespace orcafit.Controllers
             return View();
         }
 
-        public IActionResult Rutinas()
+        public IActionResult Index()
         {
             List<Rutina> rutinas = this.repo.GetRutinas();
             List<Categoria> categorias = this.repo.GetCategorias();

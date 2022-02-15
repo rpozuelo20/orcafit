@@ -23,7 +23,7 @@
 <body class="bg-white">
     @if (ViewBag.ViewName != "Dev" && ViewBag.ViewName != "LogIn" && ViewBag.ViewName != "SignUp")
     {
-            <nav class="navbar navbar-expand-md navbar-light fixed-top bg-white py-4">
+            <nav class="navbar navbar-expand-md navbar-light fixed-top bg-white py-4 border-bottom">
                 <div class="container" >
                     <a class="navbar-brand d-flex align-items-center justify-content-center"
                        asp-controller="Home" asp-action="Index">
@@ -36,7 +36,7 @@
                         <ul class="navbar-nav me-auto mb-2 mb-md-0 fw-medium">
                             <li class="nav-item">
                                 <a class="nav-link py-1"
-                                   asp-controller="Rutinas" asp-action="Rutinas">Rutinas</a>
+                                   asp-controller="Rutinas" asp-action="Index">Rutinas</a>
                             </li>
                         </ul>
                         <div class="d-flex">
@@ -70,25 +70,9 @@
             </nav>
     }
 
-    <main role="main" class="position-relative w-100" style="padding-top: 86px; min-height: 100vh;">
+    <main role="main" class="position-relative w-100 scroll-none" style="padding-top: 86px; min-height: 100vh; max-height: 100vh;">
         @RenderBody()
     </main>
-
-    @if (ViewBag.ViewName != "Dev" && ViewBag.ViewName != "LogIn" && ViewBag.ViewName != "SignUp")
-    {
-        <div class="container">
-            <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-                <div class="col-md-4 d-flex align-items-center">
-                    <span class="text-muted fw-medium">&copy; 2022 orcafit.</span>
-                </div>
-
-                <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-                    <li class="ms-3 d-flex align-items-center justify-content-center"><a class="text-muted" href="#"><i class="bi bi-twitter" width="24" height="24" style="font-size: 24px;"></i></a></li>
-                    <li class="ms-3 d-flex align-items-center justify-content-center"><a class="text-muted" href="#"><i class="bi bi-instagram" width="24" height="24" style="font-size: 24px;"></i></a></li>
-                </ul>
-            </footer>
-        </div>
-    }
 
     <script src="~/lib/jquery/jquery-3.6.0.min.js"></script>
     <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>

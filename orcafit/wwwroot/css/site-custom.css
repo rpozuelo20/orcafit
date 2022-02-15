@@ -4,6 +4,18 @@
     outline: none !important;
 }
 
+.scroll-none {
+    overflow-x: hidden !important;
+    scrollbar-width: none !important;
+}
+
+    .scroll-none::-webkit-scrollbar {
+        height: 0px !important;
+        width: 0px !important;
+        background: none !important;
+        visibility: hidden !important;
+    }
+
 .fw-medium {
     font-weight: 600 !important;
 }

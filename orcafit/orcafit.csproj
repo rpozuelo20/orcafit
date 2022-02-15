@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BuildWebCompiler" Version="1.12.405" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.13" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
@@ -13,7 +12,10 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\js\" />
+    <Folder Include="wwwroot\js\" />
     <Folder Include="wwwroot\uploadFiles\images\" />
+    <Folder Include="wwwroot\uploadFiles\images\" />
+    <Folder Include="wwwroot\uploadFiles\videos\" />
     <Folder Include="wwwroot\uploadFiles\videos\" />
   </ItemGroup>
 

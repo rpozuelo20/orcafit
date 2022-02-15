@@ -1,14 +1,4 @@
-﻿.scroll-none {
-    overflow-x: hidden !important;
-    scrollbar-width: none !important;
-}
-.scroll-none::-webkit-scrollbar {
-    height: 0px !important;
-    width: 0px !important;
-    background: none !important;
-    visibility: hidden !important;
-}
-.last-child-nomargin > div:last-child{
+﻿.last-child-nomargin > div:last-child{
     margin-bottom: 0px !important;
 }
 .first-child-nomargin > h2:first-child{
