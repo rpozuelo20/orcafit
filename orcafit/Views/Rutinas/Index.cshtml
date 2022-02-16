@@ -12,7 +12,16 @@
     <div class="container p-4">
         <div class="row flex-lg-row-reverse align-items-start g-5">
             <div class="col-lg-5">
-                B
+                <form class="w-100 d-flex align-items-end justify-content-start">
+                    <div style="max-width: calc(100% - 98.7833px);" class="w-100">
+                        <input type="email" class="form-control" id="notifyMe" placeholder="Email Address"
+                               style="border-radius:.25rem 0rem 0rem .25rem;" required>
+                    </div>
+                    <button class="btn btn-primary fw-medium"
+                            style="border-radius:0rem .25rem .25rem 0rem;">
+                        Notifícame
+                    </button>
+                </form>
             </div>
             <div class="col-lg-7" style="min-height: 100%;">
                 @foreach (Rutina item in Model)
