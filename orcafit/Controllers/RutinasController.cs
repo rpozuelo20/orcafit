@@ -33,6 +33,14 @@ namespace orcafit.Controllers
             ViewBag.Categorias = categorias;
             return View(rutinas);
         }
+        [HttpPost]
+        public IActionResult Index(string nombre, string categoria)
+        {
+            List<Rutina> rutinas = this.repo.GetRutinaNombre(nombre, categoria);
+            List<Categoria> categorias = this.repo.GetCategorias();
+            ViewBag.Categorias = categorias;
+            return View(rutinas);
+        }
 
         [AuthorizeUsuarios]
         public IActionResult Rutina(int id)

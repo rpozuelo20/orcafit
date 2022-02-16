@@ -14,5 +14,6 @@ namespace orcafit.Repositories
         int InsertRutina
             (string nombre, string rutinatexto, string video, string imagen, string categoria);
         void DeleteRutina(int id);
+        List<Rutina> GetRutinaNombre(string nombre, string categoria);
     }
 }

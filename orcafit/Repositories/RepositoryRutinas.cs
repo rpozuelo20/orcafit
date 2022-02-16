@@ -72,5 +72,30 @@ namespace orcafit.Repositories
             this.context.Rutinas.Remove(GetRutina(id));
             this.context.SaveChanges();
         }
+        public List<Rutina> GetRutinaNombre(string nombre, string categoria)
+        {
+            if(nombre != null && categoria == null)
+            {
+                var consulta = from datos in this.context.Rutinas
+                               where datos.Nombre.Contains(nombre)
+                               select datos;
+                return consulta.ToList();
+            }
+            else if(nombre == null && categoria != null)
+            {
+                var consulta = from datos in this.context.Rutinas
+                               where datos.Categoria.ToLower() == categoria.ToLower()
+                               select datos;
+                return consulta.ToList();
+            }
+            else
+            {
+                var consulta = from datos in this.context.Rutinas
+                               where datos.Categoria.ToLower() == categoria.ToLower()
+                               && datos.Nombre.Contains(nombre)
+                               select datos;
+                return consulta.ToList();
+            }
+        }
     }
 }
