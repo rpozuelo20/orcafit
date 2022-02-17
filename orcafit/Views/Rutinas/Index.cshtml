@@ -7,8 +7,6 @@
 }
 
 <div class="w-100" style="min-height: calc(100vh - 86px);">
-    @if (Model.Count() != 0)
-    {
         <div class="container p-4">
             <div class="row flex-lg-row-reverse align-items-start g-5">
                 <div class="col-lg-5">
@@ -36,36 +34,36 @@
                     </form>
                 </div>
                 <div class="col-lg-7" style="min-height: 100%;">
-                    @foreach (Rutina item in Model)
+                    @if (Model.Count() != 0)
                     {
-                        <div class="row flex-lg-row align-items-center g-5 mb-3">
-                            <div class="col-5 pe-2" style="height: 175px;">
-                                <img class="w-100 h-100 border rounded-3" style="object-fit:cover;" src="~/uploadFiles/images/@item.Imagen" />
-                            </div>
-                            <div class="col-7 align-items-start ps-2">
-                                <div style="height: 137px;">
-                                    <p class="fw-medium lead mb-2">
-                                        @item.Nombre
-                                    </p>
-                                    <p class="mb-2">@item.RutinaTexto</p>
+                        @foreach (Rutina item in Model)
+                        {
+                            <div class="row flex-lg-row align-items-center g-5 mb-3">
+                                <div class="col-5 pe-2" style="height: 175px;">
+                                    <img class="w-100 h-100 border rounded-3" style="object-fit:cover;" src="~/uploadFiles/images/@item.Imagen" />
                                 </div>
-                                <a asp-controller="Rutinas" asp-action="Rutina" asp-route-id="@item.IdRutina" class="btn btn-primary fw-medium m-0">Empezar rutina</a>
+                                <div class="col-7 align-items-start ps-2">
+                                    <div style="height: 137px;">
+                                        <p class="fw-medium lead mb-2">
+                                            @item.Nombre
+                                        </p>
+                                        <p class="mb-2">@item.RutinaTexto</p>
+                                    </div>
+                                    <a asp-controller="Rutinas" asp-action="Rutina" asp-route-id="@item.IdRutina" class="btn btn-primary fw-medium m-0">Empezar rutina</a>
+                                </div>
                             </div>
-                        </div>
+                        }
+                    }
+                    else
+                    {
+                            <div class="p-5 rounded-3 bg-white col-lg-6 border w-100">
+                                <h2 class="fw-medium mb-3">Rutinas no disponibles</h2>
+                                <p>En estos momentos <span class="fw-bold">no disponemos de rutinas</span>, pero no te preocupes <span class="fw-bold">guerrero</span>, estamos trabajando para ofrecerte <span class="fw-bold">las mejores rutinas.</span></p>
+                                <a class="btn w-100 btn-primary fw-medium"
+                                   asp-controller="Home" asp-action="index">Volver</a>
+                            </div>
                     }
                 </div>
             </div>
         </div>
-    }
-    else
-    {
-            <div class="container px-4 py-5 d-flex align-items-center justify-content-center">
-                <div class="p-5 rounded-3 bg-white col-lg-6 border">
-                    <h2 class="fw-medium mb-3">Rutinas no disponibles</h2>
-                    <p>En estos momentos <span class="fw-bold">no disponemos de rutinas</span>, pero no te preocupes <span class="fw-bold">guerrero</span>, estamos trabajando para ofrecerte <span class="fw-bold">las mejores rutinas.</span></p>
-                    <a class="btn w-100 btn-primary fw-medium"
-                    asp-controller="Home" asp-action="index">Volver</a>
-                </div>
-            </div>
-    }
 </div>
