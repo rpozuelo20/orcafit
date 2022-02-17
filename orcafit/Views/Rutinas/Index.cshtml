@@ -4,6 +4,10 @@
 }
 @{
     ViewBag.ViewName = "Rutinas";
+    if (Model.Count() == 0)
+    {
+        ViewBag.IsDisabled = "disabled";
+    }
 }
 
 <div class="w-100" style="min-height: calc(100vh - 86px);">
@@ -11,25 +15,28 @@
             <div class="row flex-lg-row-reverse align-items-start g-5">
                 <div class="col-lg-5">
                     <form class="w-100 d-flex align-items-end justify-content-start flex-column" method="post">
-                        <div class="w-100 d-flex mb-3">
+                        <div class="w-100 d-flex mb-2">
                             <div style="max-width: calc(100% - 120.983px);" class="w-100">
                                 <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Introduzca la rutina a buscar"
-                                       style="border-radius:.25rem 0rem 0rem .25rem;">
+                                       style="border-radius:.25rem 0rem 0rem .25rem;" @ViewBag.IsDisabled>
                             </div>
                             <button class="btn btn-primary fw-medium"
-                                    style="border-radius:0rem .25rem .25rem 0rem;">
+                                    style="border-radius:0rem .25rem .25rem 0rem;" @ViewBag.IsDisabled>
                                 Buscar rutina
                             </button>
                         </div>
                         <div class="w-100 d-flex">
-                            <div class="col-6">
-                                <select class="form-select" name="categoria">
+                            <div class="w-100 pe-2" style="max-width: calc(100% - 153.4px);">
+                                <select class="form-select" name="categoria" @ViewBag.IsDisabled>
                                     @foreach (Categoria item in ViewBag.Categorias)
                                     {
                                         <option value="@item.Nombre">@item.Nombre</option>
                                     }
                                 </select>
                             </div>
+
+                            <a class="btn btn-primary fw-medium"
+                               asp-controller="Rutinas" asp-action="Index">Recuperar rutinas</a>
                         </div>
                     </form>
                 </div>
@@ -43,11 +50,17 @@
                                     <img class="w-100 h-100 border rounded-3" style="object-fit:cover;" src="~/uploadFiles/images/@item.Imagen" />
                                 </div>
                                 <div class="col-7 align-items-start ps-2">
-                                    <div style="height: 137px;">
+                                    <div style="height: 105.3px;">
                                         <p class="fw-medium lead mb-2">
                                             @item.Nombre
                                         </p>
-                                        <p class="mb-2">@item.RutinaTexto</p>
+                                        <p class="mb-2" style="height: 59.3px; word-wrap: break-word;">@if (item.RutinaTexto.Length >= 50)
+                                        { @item.RutinaTexto.Substring(0, 50)<span>…</span> }
+                                        else { @item.RutinaTexto }</p>
+                                    </div>
+                                    <div>
+                                        <p class="badge rounded-3 bg-primary mb-2">@item.Categoria</p>
+                                        <p class="badge rounded-3 bg-dark mb-2">@item.Fecha.ToString().Substring(0, 10)</p>
                                     </div>
                                     <a asp-controller="Rutinas" asp-action="Rutina" asp-route-id="@item.IdRutina" class="btn btn-primary fw-medium m-0">Empezar rutina</a>
                                 </div>
