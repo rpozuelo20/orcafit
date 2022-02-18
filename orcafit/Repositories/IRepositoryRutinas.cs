@@ -8,7 +8,7 @@ namespace orcafit.Repositories
 {
     public interface IRepositoryRutinas
     {
-        int InsertComentario(int idrutina, int iduser, string username, string comentariotexto);
+        int InsertComentario(int idrutina, int iduser, string username, string comentariotexto, string userimage);
         List<Comentario> GetComentarios(int id);
         List<Categoria> GetCategorias();
         Rutina GetRutina(int id);

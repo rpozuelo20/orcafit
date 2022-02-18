@@ -6,10 +6,6 @@
     if(Model != null)
     {
         ViewBag.ViewName = Model.Nombre.ToLower();
-        ViewBag.UserId = Context.User.FindFirst("iduser").Value.ToString();
-
-        string username = Context.User.Identity.Name.ToString().ToLower();
-        ViewBag.UserName = char.ToUpper(username[0]) + username.Substring(1);
     }
     else
     {
@@ -30,26 +26,38 @@
                 </video>
             </div>
             <div class="row flex-lg-row align-items-start g-5 p-0">
-                <div class="col-lg-8 p-4 pb-0 mt-0">
+                <div class="col-lg-7 p-4 pb-0 mt-0">
                     <h2 class="fw-medium mb-3">@Model.Nombre</h2>
                     <p>@Html.Raw(Model.RutinaTexto)</p>
                     <p class="badge rounded-3 bg-success">@Model.Categoria</p>
                     <p class="badge rounded-3 bg-dark">@Model.Fecha.ToString().Substring(0, 10)</p>
                 </div>
-                <div class="col-lg-4 p-4 pb-0 mt-0">
-                    <form method="post">
-                        <input type="text" name="comentariotexto" />
-                        <input type="number" name="idrutina" value="@Model.IdRutina" hidden />
-                        <input type="number" name="iduser" value="@ViewBag.UserId" hidden />
-                        <input type="text" name="username" value="@ViewBag.UserName" hidden />
-                        <button>Enviar comment</button>
+                <div class="col-lg-5 p-4 pb-0 mt-0">
+                    <form class="w-100 d-flex mb-2" method="post">
+                        <input type="number" hidden name="idrutina" value="@Model.IdRutina" />
+                        <div style="max-width: calc(100% - 70.1833px);" class="w-100">
+                            <input type="text" class="form-control" id="comentariotexto"
+                                   name="comentariotexto" placeholder="Introduzca un comentario"
+                                   style="border-radius:.25rem 0rem 0rem .25rem;">
+                        </div>
+                        <button class="btn btn-primary fw-medium"
+                                style="border-radius:0rem .25rem .25rem 0rem;">
+                            Enviar
+                        </button>
                     </form>
-                    <ul>
-                        @foreach(Comentario item in ViewBag.Comentarios) 
-                        { 
-                            <li>@item.Username @item.ComentarioTexto</li>
+                    <div>
+                        @foreach (Comentario item in ViewBag.Comentarios)
+                        {
+                            <div class="d-flex pt-3">
+                                <img class="me-2 rounded-3" width="32" height="32" src="~/uploadFiles/users/@item.UserImage" />
+
+                                <p class="pb-3 mb-0 small lh-sm">
+                                    <span class="d-block fw-medium">@item.Username</span>
+                                    @item.ComentarioTexto
+                                </p>
+                            </div>
                         }
-                    </ul>
+                    </div>
                 </div>
             </div>
         }

@@ -58,9 +58,14 @@ namespace orcafit.Controllers
             }
         }
         [HttpPost]
-        public IActionResult Rutina(int idrutina, int iduser, string username, string comentariotexto)
+        public IActionResult Rutina(int idrutina, string comentariotexto)
         {
-            this.repo.InsertComentario(idrutina, iduser, username, comentariotexto);
+            int iduser = int.Parse(HttpContext.User.FindFirst("iduser").Value);
+            string username = HttpContext.User.Identity.Name.ToString().ToLower();
+            username = char.ToUpper(username[0]) + username.Substring(1);
+            string userimage = HttpContext.User.FindFirst("image").Value.ToString();
+
+            this.repo.InsertComentario(idrutina, iduser, username, comentariotexto, userimage);
             return RedirectToAction("Rutina");
         }
     }

@@ -43,7 +43,7 @@ namespace orcafit.Repositories
             }
         }
 
-        public int InsertComentario(int idrutina, int iduser, string username, string comentariotexto)
+        public int InsertComentario(int idrutina, int iduser, string username, string comentariotexto, string userimage)
         {
             int idcomentario = this.GetMaxIdComentario();
             Comentario comentario = new Comentario();
@@ -53,6 +53,7 @@ namespace orcafit.Repositories
             comentario.IdUser = iduser;
             comentario.ComentarioTexto = comentariotexto;
             comentario.Fecha = DateTime.Now;
+            comentario.UserImage = userimage;
 
             this.context.Comentarios.Add(comentario);
             this.context.SaveChanges();
@@ -63,6 +64,7 @@ namespace orcafit.Repositories
         {
             var consulta = from datos in this.context.Comentarios
                            where datos.IdRutina == id
+                           orderby datos.IdComentario descending
                            select datos;
             return consulta.ToList();
         }
