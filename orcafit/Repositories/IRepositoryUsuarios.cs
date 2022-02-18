@@ -8,7 +8,9 @@ namespace orcafit.Repositories
 {
     public interface IRepositoryUsuarios
     {
-        int InsertUsuario(string username, string password);
+        Usuario GetUsuario(string username);
+        void DeleteUsuario(string username);
+        int InsertUsuario(string username, string password, string imagen);
         Usuario ExisteUsuario(string username, string password);
         Usuario ExisteUsername(string username);
     }

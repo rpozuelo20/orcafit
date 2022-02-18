@@ -45,17 +45,23 @@ namespace orcafit.Controllers
         [AuthorizeUsuarios]
         public IActionResult Rutina(int id)
         {
-            List<Rutina> rutinas = this.repo.GetRutinas();
+            List<Comentario> comentarios = this.repo.GetComentarios(id);
             Rutina rutina = this.repo.GetRutina(id);
             if (rutina != null)
             {
-                ViewBag.Rutinas = rutinas;
+                ViewBag.Comentarios = comentarios;
                 return View(rutina);
             }
             else
             {
                 return RedirectToAction("ErrorRutina", "Rutinas");
             }
+        }
+        [HttpPost]
+        public IActionResult Rutina(int idrutina, int iduser, string username, string comentariotexto)
+        {
+            this.repo.InsertComentario(idrutina, iduser, username, comentariotexto);
+            return RedirectToAction("Rutina");
         }
     }
 }

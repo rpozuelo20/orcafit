@@ -31,6 +31,41 @@ namespace orcafit.Repositories
                 return this.context.Rutinas.Max(z => z.IdRutina) + 1;
             }
         }
+        private int GetMaxIdComentario()
+        {
+            if (this.context.Comentarios.Count() == 0)
+            {
+                return 1;
+            }
+            else
+            {
+                return this.context.Comentarios.Max(z => z.IdComentario) + 1;
+            }
+        }
+
+        public int InsertComentario(int idrutina, int iduser, string username, string comentariotexto)
+        {
+            int idcomentario = this.GetMaxIdComentario();
+            Comentario comentario = new Comentario();
+            comentario.IdComentario = idcomentario;
+            comentario.IdRutina = idrutina;
+            comentario.Username = username;
+            comentario.IdUser = iduser;
+            comentario.ComentarioTexto = comentariotexto;
+            comentario.Fecha = DateTime.Now;
+
+            this.context.Comentarios.Add(comentario);
+            this.context.SaveChanges();
+
+            return idcomentario;
+        }
+        public List<Comentario> GetComentarios(int id)
+        {
+            var consulta = from datos in this.context.Comentarios
+                           where datos.IdRutina == id
+                           select datos;
+            return consulta.ToList();
+        }
 
         public List<Categoria> GetCategorias() 
         {
@@ -88,11 +123,16 @@ namespace orcafit.Repositories
                                select datos;
                 return consulta.ToList();
             }
-            else
+            else if(nombre != null && categoria != null)
             {
                 var consulta = from datos in this.context.Rutinas
                                where datos.Categoria.ToLower() == categoria.ToLower()
                                && datos.Nombre.Contains(nombre)
+                               select datos;
+                return consulta.ToList();
+            } else
+            {
+                var consulta = from datos in this.context.Rutinas
                                select datos;
                 return consulta.ToList();
             }

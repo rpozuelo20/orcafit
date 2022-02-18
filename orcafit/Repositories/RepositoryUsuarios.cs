@@ -30,7 +30,16 @@ namespace orcafit.Repositories
             }
         }
 
-        public int InsertUsuario(string username, string password)
+        public Usuario GetUsuario(string username)
+        {
+            return this.context.Usuarios.SingleOrDefault(x => x.Username.ToLower() == username.ToLower());
+        }
+        public void DeleteUsuario(string username)
+        {
+            this.context.Usuarios.Remove(GetUsuario(username));
+            this.context.SaveChanges();
+        }
+        public int InsertUsuario(string username, string password, string imagen)
         {
             int idusuario = this.GetMaxIdUsuario();
             Usuario usuario = new Usuario();
@@ -38,6 +47,8 @@ namespace orcafit.Repositories
             usuario.Username = username;
             usuario.Password = password;
             usuario.Role = "user";
+            usuario.Imagen = usuario.Username + "_" + imagen;
+            usuario.Fecha = DateTime.Now;
 
             this.context.Usuarios.Add(usuario);
             this.context.SaveChanges();

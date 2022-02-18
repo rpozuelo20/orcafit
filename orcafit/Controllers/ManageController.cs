@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using betari_app.Helpers;
+using betari_app.Providers;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using orcafit.Filters;
 using orcafit.Models;
 using orcafit.Repositories;
 using System;
@@ -15,9 +19,11 @@ namespace orcafit.Controllers
     {
         //  Sentencias comunes en los controllers   ⌄⌄⌄
         private IRepositoryUsuarios repo;
-        public ManageController(IRepositoryUsuarios repo)
+        private HelperUploadFiles helper;
+        public ManageController(IRepositoryUsuarios repo, HelperUploadFiles helper)
         {
             this.repo = repo;
+            this.helper = helper;
         }
         //  Sentencias comunes en los controllers   ˄˄˄
 
@@ -48,9 +54,15 @@ namespace orcafit.Controllers
                     (CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
                 Claim claimName = new Claim(ClaimTypes.Name, usuario.Username);
                 Claim claimRole = new Claim(ClaimTypes.Role, usuario.Role);
+                Claim claimImage = new Claim("image", usuario.Imagen);
+                Claim claimId = new Claim("iduser", usuario.IdUser.ToString());
+                Claim claimFecha = new Claim("fecha", usuario.Fecha.ToString().Substring(0, 10));
 
                 identity.AddClaim(claimRole);
                 identity.AddClaim(claimName);
+                identity.AddClaim(claimImage);
+                identity.AddClaim(claimId);
+                identity.AddClaim(claimFecha);
 
                 ClaimsPrincipal userPrincipal = new ClaimsPrincipal(identity);
 
@@ -69,12 +81,15 @@ namespace orcafit.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult SignUp(string username, string password)
+        public async Task<IActionResult> SignUp(string username, string password, IFormFile imagen)
         {
+            string fileNameImage = imagen.FileName;
             Usuario usuario = this.repo.ExisteUsername(username);
             if (usuario == null)
             {
-                this.repo.InsertUsuario(username, password);
+                this.repo.InsertUsuario(username, password, fileNameImage);
+                fileNameImage = username + "_" + fileNameImage;
+                await this.helper.UploadFileAsync(imagen, Folders.Users, fileNameImage);
                 return RedirectToAction("LogIn", "Manage");
             } 
             else
@@ -82,6 +97,18 @@ namespace orcafit.Controllers
                 ViewData["MENSAJE"] = "The user already exist.";
             }
             return View();
+        }
+        [AuthorizeUsuarios]
+        public IActionResult PerfilUsuario()
+        {
+            return View();
+        }
+        public async Task<IActionResult> DeleteUsuario(string username)
+        {
+            await HttpContext.SignOutAsync
+                (CookieAuthenticationDefaults.AuthenticationScheme);
+            this.repo.DeleteUsuario(username);
+            return RedirectToAction("Index", "Home");
         }
     }
 }

@@ -2,10 +2,13 @@
     if(Context.User.Identity.IsAuthenticated==false)
     {
         ViewBag.UserRole = null;
+        ViewBag.UserImage = null;
     } else
     {
         ViewBag.UserRole = Context.User.FindFirst(ClaimTypes.Role).Value.ToString();
+        ViewBag.UserImage = Context.User.FindFirst("image").Value.ToString();
     }
+
 }
 
 <!DOCTYPE html>
@@ -21,7 +24,7 @@
     @RenderSection("css", required: false)
 </head>
 <body class="bg-white">
-    @if (ViewBag.ViewName != "Dev" && ViewBag.ViewName != "LogIn" && ViewBag.ViewName != "SignUp")
+    @if (ViewBag.ViewName != "dev" && ViewBag.ViewName != "login" && ViewBag.ViewName != "signup")
     {
             <nav class="navbar navbar-expand-md navbar-light fixed-top bg-white py-4 border-bottom">
                 <div class="container" >
@@ -43,24 +46,30 @@
                             @if (Context.User.Identity.IsAuthenticated == false)
                             {
                                 <a class="btn w-100 btn-primary fw-medium"
-                                   asp-controller="Manage" asp-action="LogIn">Comenzar ahora</a>
+                                   asp-controller="Manage" asp-action="PerfilUsuario">Comenzar ahora</a>
                             }
                             else
                             {
                                 <div class="dropdown">
-                                    <button class="fw-medium dropdown-toggle btn px-0" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                        @Context.User.Identity.Name.ToString()
+                                    <button class="fw-medium dropdown-toggle btn p-0 d-flex align-items-center justify-content-center" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <img src="~/uploadFiles/users/@ViewBag.UserImage" class="me-2 rounded-3" style="height: 36px; width: 36px; object-fit: cover;"/>@Context.User.Identity.Name.ToString().ToLower()
                                     </button>
                                     <ul class="dropdown-menu drop-position" aria-labelledby="dropdownMenuButton1">
-                                        @if (ViewBag.UserRole == "admin") 
+                                        @if (ViewBag.UserRole == "admin")
                                         {
+                                            <li>
+                                                <a class="dropdown-item w-100"
+                                                   asp-controller="Dev" asp-action="VistaRutinas">Administración</a>
+                                            </li>
+                                        }
                                         <li>
                                             <a class="dropdown-item w-100"
-                                               asp-controller="Dev" asp-action="VistaRutinas">Administración</a>
+                                               asp-controller="Manage" asp-action="PerfilUsuario">Mi perfil</a>
                                         </li>
-                                        }
-                                        <li><a class="dropdown-item w-100" 
-                                               asp-controller="Manage" asp-action="LogOut">Cerrar sesión</a></li>
+                                        <li>
+                                            <a class="dropdown-item w-100"
+                                               asp-controller="Manage" asp-action="LogOut">Cerrar sesión</a>
+                                        </li>
                                     </ul>
                                 </div>
                             }

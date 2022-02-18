@@ -5,11 +5,15 @@
 @{
     if(Model != null)
     {
-        ViewBag.ViewName = Model.Nombre;
+        ViewBag.ViewName = Model.Nombre.ToLower();
+        ViewBag.UserId = Context.User.FindFirst("iduser").Value.ToString();
+
+        string username = Context.User.Identity.Name.ToString().ToLower();
+        ViewBag.UserName = char.ToUpper(username[0]) + username.Substring(1);
     }
     else
     {
-        ViewBag.ViewName = "Error";
+        ViewBag.ViewName = "error";
     }
 }
 
@@ -29,8 +33,23 @@
                 <div class="col-lg-8 p-4 pb-0 mt-0">
                     <h2 class="fw-medium mb-3">@Model.Nombre</h2>
                     <p>@Html.Raw(Model.RutinaTexto)</p>
-                    <p class="badge rounded-3 bg-primary">@Model.Categoria</p>
+                    <p class="badge rounded-3 bg-success">@Model.Categoria</p>
                     <p class="badge rounded-3 bg-dark">@Model.Fecha.ToString().Substring(0, 10)</p>
+                </div>
+                <div class="col-lg-4 p-4 pb-0 mt-0">
+                    <form method="post">
+                        <input type="text" name="comentariotexto" />
+                        <input type="number" name="idrutina" value="@Model.IdRutina" hidden />
+                        <input type="number" name="iduser" value="@ViewBag.UserId" hidden />
+                        <input type="text" name="username" value="@ViewBag.UserName" hidden />
+                        <button>Enviar comment</button>
+                    </form>
+                    <ul>
+                        @foreach(Comentario item in ViewBag.Comentarios) 
+                        { 
+                            <li>@item.Username @item.ComentarioTexto</li>
+                        }
+                    </ul>
                 </div>
             </div>
         }

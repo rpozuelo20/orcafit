@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.ViewName = Context.User.Identity.Name.ToString().ToLower();
+    string userrole = Context.User.FindFirst(ClaimTypes.Role).Value.ToLower();
+    ViewBag.UserRole = char.ToUpper(userrole[0]) + userrole.Substring(1);
+    string username = Context.User.Identity.Name.ToString().ToLower();
+    ViewBag.UserName = char.ToUpper(username[0]) + username.Substring(1);
+    ViewBag.UserImage = Context.User.FindFirst("image").Value.ToString();
+    ViewBag.UserFecha = Context.User.FindFirst("fecha").Value.ToString();
+}
+<div class="w-100" style="min-height: calc(100vh - 86px);">
+    <div class="container p-4">
+        <div class="row flex-lg-row align-items-start g-5">
+            <div class="col-lg-5">
+                <div class="d-flex align-items-start">
+                    <img src="~/uploadFiles/users/@ViewBag.UserImage" class="rounded-3 me-3 border" style="height: 100px; width: 100px; object-fit: cover;" />
+                    <div style="height: 100px;" class="d-flex flex-column justify-content-end">
+                        <div class="d-flex align-items-center mb-2"><p class="fw-medium lead my-0">@ViewBag.UserName</p><p class="badge rounded-3 bg-primary my-0 ms-2">@ViewBag.UserRole</p></div>
+                        <p class="mb-0">Usuario desde @ViewBag.UserFecha.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
