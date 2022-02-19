@@ -46,13 +46,13 @@
                         </button>
                     </form>
                     <div>
-                        @foreach (Comentario item in ViewBag.Comentarios)
+                        @foreach (ComentarioUsuarioViewModel item in ViewBag.Comentarios)
                         {
                             <div class="d-flex pt-3">
-                                <img class="me-2 rounded-3" width="32" height="32" src="~/uploadFiles/users/@item.UserImage" />
+                                <img class="me-2 rounded-3" width="32" height="32" src="~/uploadFiles/users/@item.Imagen" />
 
                                 <p class="pb-3 mb-0 small lh-sm">
-                                    <span class="d-block fw-medium">@item.Username</span>
+                                    <span class="d-block fw-medium text-capitalize">@item.Username</span>
                                     @item.ComentarioTexto
                                 </p>
                             </div>

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using orcafit.Data;
 using orcafit.Models;
+using orcafit.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,29 +44,37 @@ namespace orcafit.Repositories
             }
         }
 
-        public int InsertComentario(int idrutina, int iduser, string username, string comentariotexto, string userimage)
+        public int InsertComentario(int idrutina, int iduser, string comentariotexto)
         {
             int idcomentario = this.GetMaxIdComentario();
             Comentario comentario = new Comentario();
             comentario.IdComentario = idcomentario;
             comentario.IdRutina = idrutina;
-            comentario.Username = username;
             comentario.IdUser = iduser;
             comentario.ComentarioTexto = comentariotexto;
             comentario.Fecha = DateTime.Now;
-            comentario.UserImage = userimage;
 
             this.context.Comentarios.Add(comentario);
             this.context.SaveChanges();
 
             return idcomentario;
         }
-        public List<Comentario> GetComentarios(int id)
+        public List<ComentarioUsuarioViewModel> GetComentarios(int idrutina)
         {
-            var consulta = from datos in this.context.Comentarios
-                           where datos.IdRutina == id
-                           orderby datos.IdComentario descending
-                           select datos;
+            var consulta = from comentario in this.context.Comentarios
+                           join usuario in this.context.Usuarios
+                           on comentario.IdUser equals usuario.IdUser
+                           where comentario.IdRutina == idrutina
+                           orderby comentario.IdComentario descending
+                           select new ComentarioUsuarioViewModel
+                           {
+                               IdComentario = comentario.IdComentario,
+                               ComentarioTexto = comentario.ComentarioTexto,
+                               Fecha = comentario.Fecha,
+                               Username = usuario.Username,
+                               Imagen = usuario.Imagen
+                           };
+
             return consulta.ToList();
         }
 

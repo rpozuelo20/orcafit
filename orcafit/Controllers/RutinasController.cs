@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using orcafit.Filters;
 using orcafit.Models;
+using orcafit.Models.ViewModels;
 using orcafit.Repositories;
 using System;
 using System.Collections.Generic;
@@ -45,7 +46,7 @@ namespace orcafit.Controllers
         [AuthorizeUsuarios]
         public IActionResult Rutina(int id)
         {
-            List<Comentario> comentarios = this.repo.GetComentarios(id);
+            List<ComentarioUsuarioViewModel> comentarios = this.repo.GetComentarios(id);
             Rutina rutina = this.repo.GetRutina(id);
             if (rutina != null)
             {
@@ -61,11 +62,8 @@ namespace orcafit.Controllers
         public IActionResult Rutina(int idrutina, string comentariotexto)
         {
             int iduser = int.Parse(HttpContext.User.FindFirst("iduser").Value);
-            string username = HttpContext.User.Identity.Name.ToString().ToLower();
-            username = char.ToUpper(username[0]) + username.Substring(1);
-            string userimage = HttpContext.User.FindFirst("image").Value.ToString();
 
-            this.repo.InsertComentario(idrutina, iduser, username, comentariotexto, userimage);
+            this.repo.InsertComentario(idrutina, iduser, comentariotexto);
             return RedirectToAction("Rutina");
         }
     }

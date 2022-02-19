@@ -1,4 +1,5 @@
 ﻿using orcafit.Models;
+using orcafit.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +9,8 @@ namespace orcafit.Repositories
 {
     public interface IRepositoryRutinas
     {
-        int InsertComentario(int idrutina, int iduser, string username, string comentariotexto, string userimage);
-        List<Comentario> GetComentarios(int id);
+        int InsertComentario(int idrutina, int iduser, string comentariotexto);
+        List<ComentarioUsuarioViewModel> GetComentarios(int idrutina);
         List<Categoria> GetCategorias();
         Rutina GetRutina(int id);
         List<Rutina> GetRutinas();
