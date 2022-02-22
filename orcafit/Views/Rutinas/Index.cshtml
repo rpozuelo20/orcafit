@@ -29,9 +29,12 @@
                             <div class="w-100 pe-2" style="max-width: calc(100% - 153.4px);">
                                 <select class="form-select" name="categoria" @ViewBag.IsDisabled>
                                     <option disabled selected>Selecione una categoría</option>
-                                    @foreach (Categoria item in ViewBag.Categorias)
+                                    @if (ViewBag.Categorias != null)
                                     {
-                                        <option value="@item.Nombre">@item.Nombre</option>
+                                        @foreach (Categoria item in ViewBag.Categorias)
+                                        {
+                                            <option value="@item.Nombre">@item.Nombre</option>
+                                        }
                                     }
                                 </select>
                             </div>
