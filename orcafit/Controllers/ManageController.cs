@@ -19,10 +19,12 @@ namespace orcafit.Controllers
     {
         //  Sentencias comunes en los controllers   ⌄⌄⌄
         private IRepositoryUsuarios repo;
+        private IRepositoryRutinas repo2;
         private HelperUploadFiles helper;
-        public ManageController(IRepositoryUsuarios repo, HelperUploadFiles helper)
+        public ManageController(IRepositoryUsuarios repo, IRepositoryRutinas repo2, HelperUploadFiles helper)
         {
             this.repo = repo;
+            this.repo2 = repo2;
             this.helper = helper;
         }
         //  Sentencias comunes en los controllers   ˄˄˄
@@ -71,7 +73,7 @@ namespace orcafit.Controllers
             }
             else
             {
-                ViewData["MENSAJE"] = "Wrong username or password.";
+                ViewData["MENSAJE"] = "Credenciales incorrectas.";
             }
             return View();
         }
@@ -94,14 +96,31 @@ namespace orcafit.Controllers
             } 
             else
             {
-                ViewData["MENSAJE"] = "The user already exist.";
+                ViewData["MENSAJE"] = "El usuario ya existe.";
             }
             return View();
         }
         [AuthorizeUsuarios]
         public IActionResult PerfilUsuario()
         {
-            return View();
+            int iduser = int.Parse(HttpContext.User.FindFirst("iduser").Value);
+
+            List<RutinaComenzada> rutinascomenzadas = this.repo2.GetRutinasComenzadas(iduser);
+            List<Rutina> rutinas = this.repo2.GetRutinas();
+            List<int> idrutinascomenzadas = new List<int>();
+            List<Rutina> misrutinas = new List<Rutina>();
+            foreach(RutinaComenzada item in rutinascomenzadas)
+            {
+                idrutinascomenzadas.Add(item.IdRutina);
+            }
+            foreach(Rutina rutina in rutinas)
+            {
+                if (idrutinascomenzadas.Contains(rutina.IdRutina))
+                {
+                    misrutinas.Add(rutina);
+                }
+            }
+            return View(misrutinas);
         }
         public async Task<IActionResult> DeleteUsuario(string username)
         {

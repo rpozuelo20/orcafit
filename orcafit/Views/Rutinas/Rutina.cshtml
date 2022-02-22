@@ -45,14 +45,15 @@
                             Enviar
                         </button>
                     </form>
-                    <div>
+                    <p class="w-100 border mb-2 px-2 py-2 text-muted text-center bg-light rounded-3">Total de comentarios: @ViewBag.ComentariosTotales</p>
+                    <div class="scroll-none" style="max-height: 400px;">
                         @foreach (ComentarioUsuarioViewModel item in ViewBag.Comentarios)
                         {
                             <div class="d-flex pt-3">
                                 <img class="me-2 rounded-3" width="32" height="32" src="~/uploadFiles/users/@item.Imagen" />
 
-                                <p class="pb-3 mb-0 small lh-sm w-100">
-                                    <span class="d-flex fw-medium text-capitalize justify-content-between"><span>@item.Username</span><span class="text-muted">@item.Fecha.ToString().Substring(0, 10)</span></span>
+                                <p class="pb-3 mb-0 small lh-sm w-100" style="line-break: anywhere;">
+                                    <span class="d-flex fw-medium text-capitalize justify-content-between"><span>@item.Username</span><span class="text-muted text-light small">@item.Fecha.ToString().Substring(0, 10)</span></span>
                                     @item.ComentarioTexto
                                 </p>
                             </div>

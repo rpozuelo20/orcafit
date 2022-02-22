@@ -148,5 +148,26 @@ namespace orcafit.Repositories
                 return consulta.ToList();
             }
         }
+
+        public int InsertRutinaComenzada(int idrutina, int iduser)
+        {
+            int idrutinacomenzada = int.Parse(iduser.ToString() + idrutina.ToString());
+            RutinaComenzada rutinacomenzada = new RutinaComenzada();
+            rutinacomenzada.IdRutinaComenzada = idrutinacomenzada;
+            rutinacomenzada.IdRutina = idrutina;
+            rutinacomenzada.IdUsuario = iduser;
+
+            this.context.RutinasComenzadas.Add(rutinacomenzada);
+            this.context.SaveChanges();
+
+            return idrutinacomenzada;
+        }
+        public List<RutinaComenzada> GetRutinasComenzadas(int iduser)
+        {
+            var consulta = from datos in this.context.RutinasComenzadas
+                           where datos.IdUsuario == iduser
+                           select datos;
+            return consulta.ToList();
+        }
     }
 }

@@ -50,8 +50,26 @@ namespace orcafit.Controllers
             Rutina rutina = this.repo.GetRutina(id);
             if (rutina != null)
             {
-                ViewBag.Comentarios = comentarios;
-                return View(rutina);
+                int iduser = int.Parse(HttpContext.User.FindFirst("iduser").Value);
+                List<RutinaComenzada> rutinacomenzada = this.repo.GetRutinasComenzadas(iduser);
+                List<int> idrutinascomenzadas = new List<int>();
+                foreach(RutinaComenzada item in rutinacomenzada)
+                {
+                    idrutinascomenzadas.Add(item.IdRutina);
+                }
+
+                if (idrutinascomenzadas.Contains(id))
+                {
+                    ViewBag.Comentarios = comentarios;
+                    ViewBag.ComentariosTotales = comentarios.Count();
+                    return View(rutina);
+                } else
+                {
+                    this.repo.InsertRutinaComenzada(id, iduser);
+                    ViewBag.Comentarios = comentarios;
+                    ViewBag.ComentariosTotales = comentarios.Count();
+                    return View(rutina);
+                }
             }
             else
             {

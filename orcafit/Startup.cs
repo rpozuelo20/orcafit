@@ -45,7 +45,7 @@ namespace orcafit
             //  Acceso a datos SQL:
             services.AddTransient<IRepositoryUsuarios, RepositoryUsuarios>();
             services.AddTransient<IRepositoryRutinas, RepositoryRutinas>();
-            services.AddDbContext<orcafitContext>(options => options.UseSqlServer(cadenasqltajamar));
+            services.AddDbContext<orcafitContext>(options => options.UseSqlServer(cadenasqlcasa));
             //  Subida de ficheros:
             services.AddSingleton<PathProvider>();
             services.AddSingleton<HelperUploadFiles>();

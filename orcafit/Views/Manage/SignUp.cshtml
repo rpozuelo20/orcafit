@@ -8,26 +8,26 @@
 <div class="w-100 d-flex align-items-center justify-content-center" style="min-height: 100vh; position: relative; margin-top: -86px; background: #101214; background-image: radial-gradient(#585B5E 1px, transparent 0); background-size: 19px 19px; background-position: -10px -10px; box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.5) inset; ">
     <div class="container px-4 d-flex align-items-center justify-content-center">
         <div class="p-5 rounded-3 bg-white col-lg-6 border" style="max-width: 410px;">
-            <h2 class="fw-medium mb-5">Sign up now:</h2>
+            <h2 class="fw-medium mb-5">Crea un perfil ahora:</h2>
             <form method="post" enctype="multipart/form-data">
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control rounded-4" id="floatingInput" name="username" placeholder="Username">
-                    <label for="floatingInput">Username</label>
+                    <input type="text" class="form-control rounded-4" id="floatingInput" name="username" placeholder="Usuario">
+                    <label for="floatingInput">Usuario</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="password" class="form-control rounded-4" id="floatingPassword" name="password" placeholder="Password">
-                    <label for="floatingPassword">Password</label>
+                    <input type="password" class="form-control rounded-4" id="floatingPassword" name="password" placeholder="Contraseña">
+                    <label for="floatingPassword">Contraseña</label>
                 </div>
                 <div class="mb-3">
-                    <label for="formFile" class="form-label fw-medium">Select a profile image:</label>
+                    <label for="formFile" class="form-label fw-medium">Selecciona una imagen de perfil:</label>
                     <input class="form-control" type="file" id="formFile" name="imagen">
                 </div>
                 <small class="text-muted">@ViewData["MENSAJE"]</small>
-                <button class="w-100 my-2 btn btn-lg rounded-4 btn-primary fw-medium" type="submit">Sign up</button>
-                <small class="text-muted">By clicking Sign up, you agree to the terms of use.</small>
+                <button class="w-100 my-2 btn btn-lg rounded-4 btn-primary fw-medium" type="submit">Crear perfil</button>
+                <small class="text-muted d-block">Al crear un perfil, acepta los términos de uso.</small>
                 <a asp-action="LogIn">
                     <small class="text-muted text-decoration-underline">
-                        Do you have an account? LogIn
+                        ¿Ya tienes un perfil? Inicia sesión ahora
                     </small>
                 </a>
             </form>
