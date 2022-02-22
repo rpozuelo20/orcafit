@@ -9,6 +9,7 @@ namespace orcafit.Repositories
 {
     public interface IRepositoryRutinas
     {
+        void LimpiarRutinasComenzadas(int iduser);
         int InsertRutinaComenzada(int idrutina, int iduser);
         List<RutinaComenzada> GetRutinasComenzadas(int iduser);
         int InsertComentario(int idrutina, int iduser, string comentariotexto);

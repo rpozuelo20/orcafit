@@ -20,17 +20,27 @@
                 </div>
             </div>
             <div class="col-lg-7">
-                <p class="w-100 border mb-2 px-2 py-2 text-muted text-center bg-light rounded-3">Mis rutinas comenzadas</p>
+                <div class="d-flex w-100">
+                    <p class="w-100 border mb-2 px-2 py-2 text-muted text-center bg-light" style="max-width: calc(100% - 42px); border-radius: .25rem 0rem 0rem .25rem;">Mis rutinas comenzadas</p>
+                    @if (Model.Count() != 0) 
+                    { 
+                    <a class="btn btn-danger mb-2" style="border-radius: 0rem .25rem .25rem 0rem;"
+                    asp-action="LimpiarRutinasComenzadas"><i class="bi bi-trash2-fill"></i></a>
+                    } else 
+                    {
+                    <a class="btn btn-danger mb-2 disabled" style="border-radius: 0rem .25rem .25rem 0rem;"><i class="bi bi-trash2-fill"></i></a>
+                    }
+                </div>
                 @if (Model.Count() != 0)
                 {
                     @foreach (Rutina item in Model)
                     {
                         <div class="row flex-lg-row align-items-center g-5 mb-3">
-                            <div class="col-5 pe-2" style="height: 100px;">
+                            <div class="col-5 pe-2" style="height: 175px;">
                                 <img class="w-100 h-100 border rounded-3" style="object-fit:cover;" src="~/uploadFiles/images/@item.Imagen" />
                             </div>
                             <div class="col-7 align-items-start ps-2">
-                                <div style="height: 100px;">
+                                <div style="height: 105.3px;">
                                     <p class="fw-medium lead mb-2 text-nowrap">
                                         @item.Nombre
                                     </p>
@@ -41,9 +51,23 @@
                                     { @item.RutinaTexto}
                                     </p>
                                 </div>
+                                <div>
+                                    <p class="badge rounded-3 bg-success mb-2">@item.Categoria</p>
+                                    <p class="badge rounded-3 bg-dark mb-2">@item.Fecha.ToString().Substring(0, 10)</p>
+                                </div>
+                                <a asp-controller="Rutinas" asp-action="Rutina" asp-route-id="@item.IdRutina" class="btn btn-primary fw-medium m-0">Continuar rutina</a>
                             </div>
                         </div>
                     }
+                }
+                else
+                {
+                    <div class="p-5 rounded-3 bg-white col-lg-6 border w-100">
+                        <h2 class="fw-medium mb-3">No dispones de rutinas comenzadas</h2>
+                        <p>Si lo desea, puede <span class="fw-bold">comenzar una rutina</span> presionando el siguiente botón.</p>
+                        <a class="btn w-100 btn-primary fw-medium"
+                           asp-controller="Rutinas" asp-action="Index">Ver rutinas</a>
+                    </div>
                 }
             </div>
         </div>

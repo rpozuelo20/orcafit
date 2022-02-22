@@ -169,5 +169,14 @@ namespace orcafit.Repositories
                            select datos;
             return consulta.ToList();
         }
+        public void LimpiarRutinasComenzadas(int iduser)
+        {
+            List<RutinaComenzada> rutinascomenzadas = GetRutinasComenzadas(iduser);
+            foreach(RutinaComenzada rutinacomenzada in rutinascomenzadas)
+            {
+                this.context.RutinasComenzadas.Remove(rutinacomenzada);
+            }
+            this.context.SaveChanges();
+        }
     }
 }

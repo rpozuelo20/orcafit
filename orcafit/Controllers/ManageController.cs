@@ -129,5 +129,12 @@ namespace orcafit.Controllers
             this.repo.DeleteUsuario(username);
             return RedirectToAction("Index", "Home");
         }
+
+        public IActionResult LimpiarRutinasComenzadas()
+        {
+            int iduser = int.Parse(HttpContext.User.FindFirst("iduser").Value);
+            this.repo2.LimpiarRutinasComenzadas(iduser);
+            return RedirectToAction("PerfilUsuario");
+        }
     }
 }

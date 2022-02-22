@@ -8,6 +8,7 @@ namespace orcafit.Repositories
 {
     public interface IRepositoryUsuarios
     {
+        Email AddEmail(string correo);
         Usuario GetUsuario(string username);
         void DeleteUsuario(string username);
         int InsertUsuario(string username, string password, string imagen);

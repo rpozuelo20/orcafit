@@ -14,6 +14,7 @@ namespace orcafit.Data
 
         //  Inyeccion de los modelos:
         public DbSet<RutinaComenzada> RutinasComenzadas { get; set; }
+        public DbSet<Email> Emails { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Comentario> Comentarios { get; set; }

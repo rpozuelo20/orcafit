@@ -70,5 +70,16 @@ namespace orcafit.Repositories
                            select datos;
             return consulta.SingleOrDefault();
         }
+
+        public Email AddEmail(string correo)
+        {
+            Email email = new Email();
+            email.CorreoElectronico = correo;
+
+            this.context.Emails.Add(email);
+            this.context.SaveChanges();
+
+            return email;
+        }
     }
 }
