@@ -14,7 +14,11 @@
     <Folder Include="wwwroot\js\" />
     <Folder Include="wwwroot\js\" />
     <Folder Include="wwwroot\js\" />
+    <Folder Include="wwwroot\js\" />
     <Folder Include="wwwroot\uploadFiles\images\" />
+    <Folder Include="wwwroot\uploadFiles\images\" />
+    <Folder Include="wwwroot\uploadFiles\videos\" />
+    <Folder Include="wwwroot\uploadFiles\users\" />
     <Folder Include="wwwroot\uploadFiles\users\" />
     <Folder Include="wwwroot\uploadFiles\users\" />
     <Folder Include="wwwroot\uploadFiles\videos\" />

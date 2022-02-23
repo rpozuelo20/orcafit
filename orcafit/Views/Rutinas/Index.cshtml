@@ -63,7 +63,7 @@
                                         else { @item.RutinaTexto }</p>
                                     </div>
                                     <div>
-                                        <p class="badge rounded-3 bg-success mb-2">@item.Categoria</p>
+                                        <p class="badge rounded-3 bg-secondary mb-2">@item.Categoria</p>
                                         <p class="badge rounded-3 bg-dark mb-2">@item.Fecha.ToString().Substring(0, 10)</p>
                                     </div>
                                     <a asp-controller="Rutinas" asp-action="Rutina" asp-route-id="@item.IdRutina" class="btn btn-primary fw-medium m-0">Empezar rutina</a>
