@@ -41,11 +41,11 @@ namespace orcafit
             }).AddCookie();
             //  Cadenas de conexion:
             string cadenasqlcasa = this.Configuration.GetConnectionString("cadenasqlcasa");
-            string cadenasqltajamar = this.Configuration.GetConnectionString("cadenasqltajamar");
+            string cadenasqlazure = this.Configuration.GetConnectionString("cadenasqlazure");
             //  Acceso a datos SQL:
             services.AddTransient<IRepositoryUsuarios, RepositoryUsuarios>();
             services.AddTransient<IRepositoryRutinas, RepositoryRutinas>();
-            services.AddDbContext<orcafitContext>(options => options.UseSqlServer(cadenasqltajamar));
+            services.AddDbContext<orcafitContext>(options => options.UseSqlServer(cadenasqlazure));
             //  Subida de ficheros:
             services.AddSingleton<PathProvider>();
             services.AddSingleton<HelperUploadFiles>();
