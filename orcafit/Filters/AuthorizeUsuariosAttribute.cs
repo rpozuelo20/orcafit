@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace orcafit.Filters
 {
-    public class AuthorizeUsuariosAttribute: AuthorizeAttribute, IAuthorizationFilter
+    public class AuthorizeUsuariosAttribute : AuthorizeAttribute, IAuthorizationFilter
     {
         public void OnAuthorization(AuthorizationFilterContext context)
         {
@@ -19,11 +19,9 @@ namespace orcafit.Filters
                 context.Result = this.GetRouteRedirect("Manage", "LogIn");
             }
         }
-        private RedirectToRouteResult GetRouteRedirect
-            (string controller, string action)
+        private RedirectToRouteResult GetRouteRedirect(string controller, string action)
         {
-            RouteValueDictionary ruta = new RouteValueDictionary
-                (new{ controller = controller, action = action });
+            RouteValueDictionary ruta = new RouteValueDictionary(new { controller = controller, action = action });
             RedirectToRouteResult result = new RedirectToRouteResult(ruta);
             return result;
         }

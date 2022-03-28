@@ -1,12 +1,5 @@
 ﻿@model List<Rutina>
 
-@{
-    ViewBag.ViewName = Context.User.Identity.Name.ToString().ToLower();
-    ViewBag.UserRole = Context.User.FindFirst(ClaimTypes.Role).Value;
-    ViewBag.UserName = Context.User.Identity.Name.ToString();
-    ViewBag.UserImage = Context.User.FindFirst("image").Value.ToString();
-    ViewBag.UserFecha = Context.User.FindFirst("fecha").Value.ToString();
-}
 <div class="w-100" style="min-height: calc(100vh - 86px);">
     <div class="container p-4">
         <div class="row flex-lg-row align-items-start g-5">

@@ -7,19 +7,12 @@ using System.Threading.Tasks;
 
 namespace orcafit.Models
 {
-    [Table("COMENTARIOS")]
     public class Comentario
     {
-        [Key]
-        [Column("COMENTARIO_NO")]
         public int IdComentario { get; set; }
-        [Column("RUTINA_NO")]
         public int IdRutina { get; set; }
-        [Column("USER_NO")]
         public int IdUser { get; set; }
-        [Column("COMENTARIO_TEXTO")]
         public string ComentarioTexto { get; set; }
-        [Column("FECHA")]
         public DateTime Fecha { get; set; }
     }
 }

@@ -7,11 +7,8 @@ using System.Threading.Tasks;
 
 namespace orcafit.Models
 {
-    [Table("EMAILS")]
     public class Email
     {
-        [Key]
-        [Column("EMAIL")]
         public string CorreoElectronico { get; set; }
     }
 }

@@ -1,19 +1,4 @@
-﻿@{ 
-    if(Context.User.Identity.IsAuthenticated==false)
-    {
-        ViewBag.UserRole = null;
-        ViewBag.UserImage = null;
-        ViewBag.UserName = null;
-    } else
-    {
-        ViewBag.UserRole = Context.User.FindFirst(ClaimTypes.Role).Value.ToString();
-        ViewBag.UserImage = Context.User.FindFirst("image").Value.ToString();
-        ViewBag.UserName = Context.User.Identity.Name.ToString();
-    }
-
-}
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -54,10 +39,10 @@
                             {
                                 <div class="dropdown">
                                     <button class="fw-medium dropdown-toggle btn p-0 d-flex align-items-center justify-content-center" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <img src="~/uploadFiles/users/@ViewBag.UserImage" class="me-2 rounded-3" style="height: 36px; width: 36px; object-fit: cover;"/><span class="text-capitalize">@ViewBag.UserName</span>
+                                        <img src="~/uploadFiles/users/@Context.User.FindFirst("image").Value.ToString()" class="me-2 rounded-3" style="height: 36px; width: 36px; object-fit: cover;"/><span class="text-capitalize">@Context.User.Identity.Name.ToString()</span>
                                     </button>
                                     <ul class="dropdown-menu drop-position" aria-labelledby="dropdownMenuButton1">
-                                        @if (ViewBag.UserRole == "admin")
+                                        @if (Context.User.FindFirst(ClaimTypes.Role).Value.ToString() == "admin")
                                         {
                                             <li>
                                                 <a class="dropdown-item w-100"

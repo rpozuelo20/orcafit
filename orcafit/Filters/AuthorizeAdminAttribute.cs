@@ -26,11 +26,9 @@ namespace orcafit.Filters
                 }
             }
         }
-        private RedirectToRouteResult GetRouteRedirect
-            (string controller, string action)
+        private RedirectToRouteResult GetRouteRedirect(string controller, string action)
         {
-            RouteValueDictionary ruta = new RouteValueDictionary
-                (new { controller = controller, action = action });
+            RouteValueDictionary ruta = new RouteValueDictionary(new { controller = controller, action = action });
             RedirectToRouteResult result = new RedirectToRouteResult(ruta);
             return result;
         }

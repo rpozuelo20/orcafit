@@ -1,5 +1,3 @@
-using betari_app.Helpers;
-using betari_app.Providers;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,8 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using orcafit.Data;
-using orcafit.Repositories;
+using orcafit.Helpers;
+using orcafit.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,18 +38,23 @@ namespace orcafit
                 CookieAuthenticationDefaults.AuthenticationScheme;
             }).AddCookie();
             //  Cadenas de conexion:
-            string cadenasqlcasa = this.Configuration.GetConnectionString("cadenasqlcasa");
-            string cadenasqlazure = this.Configuration.GetConnectionString("cadenasqlazure");
-            //  Acceso a datos SQL:
-            services.AddTransient<IRepositoryUsuarios, RepositoryUsuarios>();
-            services.AddTransient<IRepositoryRutinas, RepositoryRutinas>();
-            services.AddDbContext<orcafitContext>(options => options.UseSqlServer(cadenasqlazure));
-            //  Subida de ficheros:
-            services.AddSingleton<PathProvider>();
-            services.AddSingleton<HelperUploadFiles>();
+            string urlapi = this.Configuration.GetValue<string>("ApiUrls:orcafitApi");
+            //  Llamada del heperTokenCallApi e inyeccion de los servicios:
+            HelperTokenCallApi helperTokenCallApi = new HelperTokenCallApi(urlapi);
+            ServiceRutinas serviceRutinas = new ServiceRutinas(helperTokenCallApi);
+            ServiceUsuarios serviceUsuarios = new ServiceUsuarios(helperTokenCallApi);
+            services.AddTransient<HelperTokenCallApi>(x => helperTokenCallApi);
+            services.AddTransient<ServiceRutinas>(x => serviceRutinas);
+            services.AddTransient<ServiceUsuarios>(x => serviceUsuarios);
+            //  Se añade la memoria cache y sesion:
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.IsEssential = true;
+            });
 
-            services.AddControllersWithViews(
-                options=>options.EnableEndpointRouting = false);
+            services.AddControllersWithViews(options => options.EnableEndpointRouting = false);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,6 +77,7 @@ namespace orcafit
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -81,12 +85,6 @@ namespace orcafit
                     template: "{controller=Home}/{action=Index}/{id?}"
                     );
             });
-            /*app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-            });*/
         }
     }
 }
