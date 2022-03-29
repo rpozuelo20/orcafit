@@ -4,10 +4,6 @@
 }
 @{
     ViewBag.ViewName = "rutinas";
-    if (Model.Count() == 0)
-    {
-        ViewBag.IsDisabled = "disabled";
-    }
 }
 
 <div class="w-100" style="min-height: calc(100vh - 86px);">
@@ -18,16 +14,16 @@
                         <div class="w-100 d-flex mb-2">
                             <div style="max-width: calc(100% - 120.983px);" class="w-100">
                                 <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Introduzca la rutina a buscar"
-                                       style="border-radius:.25rem 0rem 0rem .25rem;" @ViewBag.IsDisabled>
+                                       style="border-radius:.25rem 0rem 0rem .25rem;" disabled>
                             </div>
                             <button class="btn btn-primary fw-medium"
-                                    style="border-radius:0rem .25rem .25rem 0rem;" @ViewBag.IsDisabled>
+                                    style="border-radius:0rem .25rem .25rem 0rem;" disabled>
                                 Buscar rutina
                             </button>
                         </div>
                         <div class="w-100 d-flex">
-                            <div class="w-100 pe-2" style="max-width: calc(100% - 153.4px);">
-                                <select class="form-select" name="categoria" @ViewBag.IsDisabled>
+                            <div class="w-100 pe-2" style="max-width: calc(100% - 143.81px);">
+                                <select class="form-select" name="categoria" disabled>
                                     <option disabled selected>Selecione una categoría</option>
                                     @if (ViewBag.Categorias != null)
                                     {
@@ -39,8 +35,8 @@
                                 </select>
                             </div>
 
-                            <a class="btn btn-primary fw-medium"
-                               asp-controller="Rutinas" asp-action="Index">Recuperar rutinas</a>
+                            <a class="btn btn-primary fw-medium disabled"
+                               asp-controller="Rutinas" asp-action="Index">Recargar rutinas</a>
                         </div>
                     </form>
                 </div>

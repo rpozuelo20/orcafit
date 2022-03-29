@@ -45,30 +45,28 @@ namespace orcafit.Controllers
             } else
             {
                 Usuario usuario = await this.helperApi.GetPerfilUsuarioAsync(token);
-
                 ClaimsIdentity identity = new ClaimsIdentity
                     (CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
-
                 identity.AddClaim(new Claim(ClaimTypes.Name, usuario.Username));
                 identity.AddClaim(new Claim(ClaimTypes.Role, usuario.Role));
                 identity.AddClaim(new Claim("image", usuario.Imagen));
                 identity.AddClaim(new Claim("iduser", usuario.IdUser.ToString()));
                 identity.AddClaim(new Claim("fecha", usuario.Fecha.ToString().Substring(0, 10)));
                 identity.AddClaim(new Claim("TOKEN", token));
-
                 ClaimsPrincipal userPrincipal = new ClaimsPrincipal(identity);
-
-                await HttpContext.SignInAsync
-                    (CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal, new AuthenticationProperties
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal, new AuthenticationProperties
                 {
                     IsPersistent = true,
                     ExpiresUtc = DateTime.UtcNow.AddMinutes(30)
                 });
-
                 return RedirectToAction("Index", "Home");
             }
         }
-
+        public IActionResult SignUp()
+        {
+            return View();
+        }
+        [AuthorizeUsuarios]
         public async Task<IActionResult> LogOut()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -76,19 +74,14 @@ namespace orcafit.Controllers
             return RedirectToAction("Index", "Home");
         }
         [AuthorizeUsuarios]
-        public async Task<IActionResult> PerfilUsuario()
+        public IActionResult PerfilUsuario()
         {
-            string token = HttpContext.User.FindFirst("TOKEN").Value;
-
-            List<Rutina> rutinas = await this.serviceRutinas.GetRutinasComenzadasAsync(token);
-
             ViewBag.ViewName = HttpContext.User.Identity.Name.ToString().ToLower();
             ViewBag.UserRole = HttpContext.User.FindFirst(ClaimTypes.Role).Value;
             ViewBag.UserName = HttpContext.User.Identity.Name.ToString();
             ViewBag.UserImage = HttpContext.User.FindFirst("image").Value.ToString();
             ViewBag.UserFecha = HttpContext.User.FindFirst("fecha").Value.ToString();
-
-            return View(rutinas);
+            return View();
         }
     }
 }
