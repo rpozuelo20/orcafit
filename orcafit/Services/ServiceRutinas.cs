@@ -30,7 +30,7 @@ namespace orcafit.Services
         //  Metodo para recuperar una rutina:
         public async Task<Rutina> GetRutinaAsync(int idrutina, string token)
         {
-            string request = "/api/rutina/" + idrutina;
+            string request = "/api/rutinas/" + idrutina;
             Rutina rutina = await this.helperApi.CallApiAsync<Rutina>(request, token);
             return rutina;
         }
