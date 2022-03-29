@@ -15,10 +15,35 @@ namespace orcafit.Services
     {
         //  Sentencias comunes en los services   ⌄⌄⌄
         private HelperTokenCallApi helperApi;
-        public ServiceUsuarios(HelperTokenCallApi helperApi)
+        private Uri UriApi;
+        private MediaTypeWithQualityHeaderValue Header;
+        public ServiceUsuarios(HelperTokenCallApi helperApi, string url)
         {
             this.helperApi = helperApi;
+            this.UriApi = new Uri(url);
+            this.Header = new MediaTypeWithQualityHeaderValue("application/json");
         }
         //  Sentencias comunes en los services   ˄˄˄
+
+        
+        public async Task InsertUsuarioAsync(string username, string password, string image)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                string request = "/api/usuarios";
+                client.BaseAddress = this.UriApi;
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(this.Header);
+                Usuario usuario = new Usuario();
+                usuario.Username = username;
+                usuario.Password = password;
+                usuario.Imagen = image;
+                string json = JsonConvert.SerializeObject(usuario);
+                StringContent content = new StringContent
+                    (json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response =
+                    await client.PostAsync(request, content);
+            }
+        }
     }
 }

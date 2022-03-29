@@ -42,7 +42,7 @@ namespace orcafit
             //  Llamada del heperTokenCallApi e inyeccion de los servicios:
             HelperTokenCallApi helperTokenCallApi = new HelperTokenCallApi(urlapi);
             ServiceRutinas serviceRutinas = new ServiceRutinas(helperTokenCallApi);
-            ServiceUsuarios serviceUsuarios = new ServiceUsuarios(helperTokenCallApi);
+            ServiceUsuarios serviceUsuarios = new ServiceUsuarios(helperTokenCallApi, urlapi);
             services.AddTransient<HelperTokenCallApi>(x => helperTokenCallApi);
             services.AddTransient<ServiceRutinas>(x => serviceRutinas);
             services.AddTransient<ServiceUsuarios>(x => serviceUsuarios);

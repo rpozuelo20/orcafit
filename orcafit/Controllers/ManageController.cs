@@ -66,6 +66,12 @@ namespace orcafit.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public async Task<IActionResult> SignUp(string username, string password)
+        {
+            await this.serviceUsuarios.InsertUsuarioAsync(username, password, "imagen.png");
+            return RedirectToAction("LogIn");
+        }
         [AuthorizeUsuarios]
         public async Task<IActionResult> LogOut()
         {
