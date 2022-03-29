@@ -1,3 +1,4 @@
+using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,6 +28,8 @@ namespace orcafit
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+
             //  Cookies para autenticacion:
             services.AddAuthentication(options =>
             {
@@ -39,20 +42,28 @@ namespace orcafit
             }).AddCookie();
             //  Cadenas de conexion:
             string urlapi = this.Configuration.GetValue<string>("ApiUrls:orcafitApi");
+            string azStorageKeys = this.Configuration.GetConnectionString("orcafitAzStorageKeys");
             //  Llamada del heperTokenCallApi e inyeccion de los servicios:
             HelperTokenCallApi helperTokenCallApi = new HelperTokenCallApi(urlapi);
             ServiceRutinas serviceRutinas = new ServiceRutinas(helperTokenCallApi);
             ServiceUsuarios serviceUsuarios = new ServiceUsuarios(helperTokenCallApi, urlapi);
+            //  -creacion del cliente Blob mediante nuestra Key:
+            BlobServiceClient blobServiceClient = new BlobServiceClient(azStorageKeys);
+            //  -inyeccion de los servicios para las llamadas de la api y sus respectivos metodos:
             services.AddTransient<HelperTokenCallApi>(x => helperTokenCallApi);
             services.AddTransient<ServiceRutinas>(x => serviceRutinas);
             services.AddTransient<ServiceUsuarios>(x => serviceUsuarios);
-            //  Se añade la memoria cache y sesion:
+            //  -inyeccion de los servicios para el uso de storageBlobs:
+            services.AddTransient<BlobServiceClient>(x => blobServiceClient);
+            services.AddTransient<ServiceStorageBlobs>();
+            //  Se añade la memoria cache y sesion para poder usarla con la seguridad y almacenar el token:
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
                 options.Cookie.IsEssential = true;
             });
+
 
             services.AddControllersWithViews(options => options.EnableEndpointRouting = false);
         }
@@ -74,10 +85,14 @@ namespace orcafit
             app.UseStaticFiles();
 
             app.UseRouting();
-            app.UseAuthentication();
+
+            app.UseAuthentication();    //  Necesario realizar el uso de Authentication para la seguridad.
+
             app.UseAuthorization();
 
-            app.UseSession();
+            app.UseSession();   //  Necesario realizar el uso de Session para la seguridad.
+
+            //  Recordemos que esta parte esta modificada, ahora es UseMvc:
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

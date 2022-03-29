@@ -39,7 +39,7 @@
                             {
                                 <div class="dropdown">
                                     <button class="fw-medium dropdown-toggle btn p-0 d-flex align-items-center justify-content-center" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <img src="~/uploadFiles/users/@Context.User.FindFirst("image").Value.ToString()" class="me-2 rounded-3" style="height: 36px; width: 36px; object-fit: cover;"/><span class="text-capitalize">@Context.User.Identity.Name.ToString()</span>
+                                        <img src="@Context.User.FindFirst("image").Value.ToString()" class="me-2 rounded-3" style="height: 36px; width: 36px; object-fit: cover;"/><span class="text-capitalize">@Context.User.Identity.Name.ToString()</span>
                                     </button>
                                     <ul class="dropdown-menu drop-position" aria-labelledby="dropdownMenuButton1">
                                         @if (Context.User.FindFirst(ClaimTypes.Role).Value.ToString() == "admin")

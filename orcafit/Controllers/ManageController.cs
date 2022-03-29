@@ -8,6 +8,7 @@ using orcafit.Models;
 using orcafit.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -20,18 +21,26 @@ namespace orcafit.Controllers
         private HelperTokenCallApi helperApi;
         private ServiceRutinas serviceRutinas;
         private ServiceUsuarios serviceUsuarios;
-        public ManageController(HelperTokenCallApi helperApi, ServiceRutinas serviceRutinas, ServiceUsuarios serviceUsuarios)
+        private ServiceStorageBlobs serviceBlobs;
+        public ManageController(HelperTokenCallApi helperApi, ServiceRutinas serviceRutinas, ServiceUsuarios serviceUsuarios, ServiceStorageBlobs serviceBlobs)
         {
             this.helperApi = helperApi;
             this.serviceRutinas = serviceRutinas;
             this.serviceUsuarios = serviceUsuarios;
+            this.serviceBlobs = serviceBlobs;
         }
         //  Sentencias de inyeccion     ˄˄˄
 
 
         public IActionResult LogIn()
         {
-            return View();
+            if (HttpContext.User.Identity.IsAuthenticated==false)
+            {
+                return View();
+            } else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
         [HttpPost]
         public async Task<IActionResult> LogIn(string username, string password)
@@ -64,20 +73,28 @@ namespace orcafit.Controllers
         }
         public IActionResult SignUp()
         {
-            return View();
+            if (HttpContext.User.Identity.IsAuthenticated == false)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
         [HttpPost]
-        public async Task<IActionResult> SignUp(string username, string password, string imagen)
+        public async Task<IActionResult> SignUp(string username, string password, IFormFile imagen)
         {
-            //  El metodo existeusuariousername que accede a la ruta api/usuarios/{id} hay que cambiarlo en el api a no authorizado o protegido, debe de ser accedido.
-            Usuario usuario = await this.serviceUsuarios.ExisteUsuarioUsername(username);
+            Usuario usuario = await this.serviceUsuarios.ExisteUsuarioAsync(username);
             if (usuario == null)
             {
-                if (imagen == null)
+                string blobName = username + "_" + imagen.FileName;
+                using(Stream stream = imagen.OpenReadStream())
                 {
-                    imagen = "default.png";
+                    await this.serviceBlobs.UploadBlobAsync("usuarioscontainer", blobName, stream);
                 }
-                await this.serviceUsuarios.InsertUsuarioAsync(username, password, imagen);
+                BlobClass blob = await this.serviceBlobs.GetBlobAsync("usuarioscontainer", blobName);
+                await this.serviceUsuarios.InsertUsuarioAsync(username, password, blob.Url);
                 return RedirectToAction("LogIn");
             }
             else

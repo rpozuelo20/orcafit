@@ -45,8 +45,7 @@ namespace orcafit.Services
                     await client.PostAsync(request, content);
             }
         }
-        //  El metodo existeusuariousername que accede a la ruta api/usuarios/{id} hay que cambiarlo en el api a no authorizado o protegido, debe de ser accedido.
-        public async Task<Usuario> ExisteUsuarioUsername(string username)
+        public async Task<Usuario> ExisteUsuarioAsync(string username)
         {
             string request = "/api/usuarios/" + username;
             Usuario usuario = await this.helperApi.CallApiAsync<Usuario>(request);

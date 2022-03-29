@@ -3,7 +3,7 @@
         <div class="row flex-lg-row align-items-start g-5">
             <div class="col-lg-5">
                 <div class="d-flex align-items-start">
-                    <img src="~/uploadFiles/users/@ViewBag.UserImage" class="rounded-3 me-3 border" style="height: 100px; width: 100px; object-fit: cover;" />
+                    <img src="@ViewBag.UserImage" class="rounded-3 me-3 border" style="height: 100px; width: 100px; object-fit: cover;" />
                     <div style="height: 100px;" class="d-flex flex-column justify-content-end">
                         <div class="d-flex align-items-center mb-2"><p class="fw-medium lead my-0 text-capitalize">@ViewBag.UserName</p><p class="badge rounded-3 bg-primary my-0 ms-2 text-lowercase">@ViewBag.UserRole</p></div>
                         <p class="mb-0">Usuario desde @ViewBag.UserFecha.</p>

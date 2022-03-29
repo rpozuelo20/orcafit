@@ -21,7 +21,10 @@ namespace orcafit.Controllers
         }
         //  Sentencias de inyeccion     ˄˄˄
 
-
+        public IActionResult ErrorRutina()
+        {
+            return View();
+        }
         public async Task<IActionResult> Index()
         {
             ViewBag.Categorias = await this.service.GetCategoriasAsync();
@@ -32,11 +35,18 @@ namespace orcafit.Controllers
         public async Task<IActionResult> Rutina(int id)
         {
             string token = HttpContext.User.FindFirst("TOKEN").Value;
-            List<ComentarioUsuarioViewModel> comentarios = await this.service.GetComentariosRutina(id, token);
-            ViewBag.Comentarios = comentarios;
-            ViewBag.ComentariosTotales = comentarios.Count();
             Rutina rutina = await this.service.GetRutinaAsync(id, token);
-            return View(rutina);
+            if (rutina != null)
+            {
+                List<ComentarioUsuarioViewModel> comentarios = await this.service.GetComentariosRutina(id, token);
+                ViewBag.Comentarios = comentarios;
+                ViewBag.ComentariosTotales = comentarios.Count();
+                return View(rutina);
+            }
+            else
+            {
+                return RedirectToAction("ErrorRutina");
+            }
         }
     }
 }

@@ -7,5 +7,7 @@ namespace orcafit.Models
 {
     public class BlobClass
     {
+        public string Nombre { get; set; }
+        public string Url { get; set; }
     }
 }

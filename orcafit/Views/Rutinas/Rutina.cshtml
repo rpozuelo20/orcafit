@@ -3,14 +3,7 @@
     <link href="~/css/rutinas.css" rel="stylesheet" />
 }
 @{
-    if(Model != null)
-    {
-        ViewBag.ViewName = Model.Nombre.ToLower();
-    }
-    else
-    {
-        ViewBag.ViewName = "error";
-    }
+    ViewBag.ViewName = Model.Nombre.ToLower();
 }
 
 <div class="w-100" style="min-height: calc(100vh - 86px);">
@@ -50,7 +43,7 @@
                         @foreach (ComentarioUsuarioViewModel item in ViewBag.Comentarios)
                         {
                             <div class="d-flex pt-3">
-                                <img class="me-2 rounded-3" width="32" height="32" src="~/uploadFiles/users/@item.Imagen" />
+                                <img class="me-2 rounded-3" width="32" height="32" src="@item.Imagen" />
 
                                 <p class="pb-3 mb-0 small lh-sm w-100" style="line-break: anywhere;">
                                     <span class="d-flex fw-medium text-capitalize justify-content-between"><span>@item.Username</span><span class="text-muted text-light small">@item.Fecha.ToString().Substring(0, 10)</span></span>
@@ -59,17 +52,6 @@
                             </div>
                         }
                     </div>
-                </div>
-            </div>
-        }
-        else
-        {
-            <div class="container px-4 py-5 d-flex align-items-center justify-content-center">
-                <div class="p-5 rounded-3 bg-white col-lg-6 border">
-                    <h2 class="fw-medium mb-3">Error al recuperar la rutina</h2>
-                    <p>La rutina a la que estás intentando acceder <span class="fw-medium">no existe</span>, lamentamos los inconvenientes causados.</p>
-                    <a class="btn w-100 btn-primary fw-medium"
-                       asp-controller="Rutinas" asp-action="Index">Volver a rutinas</a>
                 </div>
             </div>
         }
