@@ -67,10 +67,24 @@ namespace orcafit.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> SignUp(string username, string password)
+        public async Task<IActionResult> SignUp(string username, string password, string imagen)
         {
-            await this.serviceUsuarios.InsertUsuarioAsync(username, password, "imagen.png");
-            return RedirectToAction("LogIn");
+            //  El metodo existeusuariousername que accede a la ruta api/usuarios/{id} hay que cambiarlo en el api a no authorizado o protegido, debe de ser accedido.
+            Usuario usuario = await this.serviceUsuarios.ExisteUsuarioUsername(username);
+            if (usuario == null)
+            {
+                if (imagen == null)
+                {
+                    imagen = "default.png";
+                }
+                await this.serviceUsuarios.InsertUsuarioAsync(username, password, imagen);
+                return RedirectToAction("LogIn");
+            }
+            else
+            {
+                ViewData["MENSAJE"] = "El usuario ya existe, inicie sesión.";
+                return View();
+            }
         }
         [AuthorizeUsuarios]
         public async Task<IActionResult> LogOut()
