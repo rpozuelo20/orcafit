@@ -45,6 +45,7 @@ namespace orcafit.Controllers
         [HttpPost]
         public async Task<IActionResult> LogIn(string username, string password)
         {
+            username = username.ToLower();
             string token = await this.helperApi.GetTokenAsync(username, password);
 
             if (token == null)
@@ -85,6 +86,7 @@ namespace orcafit.Controllers
         [HttpPost]
         public async Task<IActionResult> SignUp(string username, string password, IFormFile imagen)
         {
+            username = username.ToLower();
             Usuario usuario = await this.serviceUsuarios.ExisteUsuarioAsync(username);
             if (usuario == null)
             {

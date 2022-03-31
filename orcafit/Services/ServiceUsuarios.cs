@@ -51,5 +51,11 @@ namespace orcafit.Services
             Usuario usuario = await this.helperApi.CallApiAsync<Usuario>(request);
             return usuario;
         }
+        public async Task<List<Usuario>> GetUsuarios()
+        {
+            string request = "/api/usuarios";
+            List<Usuario> usuarios = await this.helperApi.CallApiAsync<List<Usuario>>(request);
+            return usuarios;
+        }
     }
 }
