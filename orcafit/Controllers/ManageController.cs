@@ -61,7 +61,7 @@ namespace orcafit.Controllers
                 identity.AddClaim(new Claim(ClaimTypes.Role, usuario.Role));
                 identity.AddClaim(new Claim("image", usuario.Imagen));
                 identity.AddClaim(new Claim("iduser", usuario.IdUser.ToString()));
-                identity.AddClaim(new Claim("fecha", usuario.Fecha.ToString().Substring(0, 10)));
+                identity.AddClaim(new Claim("fecha", usuario.Fecha.ToShortDateString()));
                 identity.AddClaim(new Claim("TOKEN", token));
                 ClaimsPrincipal userPrincipal = new ClaimsPrincipal(identity);
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal, new AuthenticationProperties

@@ -1,0 +1,36 @@
+﻿@model IEnumerable<orcafit.Models.Rutina>
+
+@{
+    ViewBag.ViewName = "dev";
+}
+
+<div class="container p-4" style="top: -86px; position: relative;">
+    <h1>Rutinas</h1>
+    <hr />
+    <p>
+        <a asp-action="CreateRutina">Create New</a>
+    </p>
+    @if (Model != null)
+    {
+        @foreach(Rutina rutina in Model) 
+        {
+        <ul style="list-style:none;">
+            <li class="fw-bold display-1">
+                @rutina.Nombre
+            </li>
+            <li>
+                @rutina.RutinaTexto
+            </li>
+            <li>
+                @rutina.Video
+            </li>
+            <li>
+                @rutina.Imagen
+            </li>
+            <li>
+                @rutina.Categoria
+            </li>
+        </ul>
+        }
+    }
+</div>

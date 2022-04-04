@@ -45,7 +45,7 @@ namespace orcafit
             string azStorageKeys = this.Configuration.GetConnectionString("orcafitAzStorageKeys");
             //  Llamada del heperTokenCallApi e inyeccion de los servicios:
             HelperTokenCallApi helperTokenCallApi = new HelperTokenCallApi(urlapi);
-            ServiceRutinas serviceRutinas = new ServiceRutinas(helperTokenCallApi);
+            ServiceRutinas serviceRutinas = new ServiceRutinas(helperTokenCallApi, urlapi);
             ServiceUsuarios serviceUsuarios = new ServiceUsuarios(helperTokenCallApi, urlapi);
             //  -creacion del cliente Blob mediante nuestra Key:
             BlobServiceClient blobServiceClient = new BlobServiceClient(azStorageKeys);

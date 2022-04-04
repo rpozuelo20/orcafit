@@ -1,0 +1,53 @@
+﻿@model orcafit.Models.Rutina
+
+@{
+    ViewBag.ViewName = "dev";
+}
+
+<div class="container p-4" style="top: -86px; position: relative;">
+    <h1>CreateRutina</h1>
+
+    <h4>Rutina</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>Nombre: </label>
+                    <input name="nombre" type="text" />
+                </div>
+                <div class="form-group">
+                    <label>RutinaTexto: </label>
+                    <textarea name="rutinatexto"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Video: </label>
+                    <input name="video" type="file" />
+                </div>
+                <div class="form-group">
+                    <label>Imagen: </label>
+                    <input name="imagen" type="file" />
+                </div>
+                <div>
+                    <label class="control-label">Categoria</label>
+                    <select name="categoria">
+                        @if (ViewBag.Categorias != null)
+                        {
+                            @foreach (Categoria item in ViewBag.Categorias)
+                            {
+                                <option value="@item.Nombre">@item.Nombre</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div>
+                    <button>Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-controller="Developer" asp-action="Rutinas">Back to List</a>
+    </div>
+</div>

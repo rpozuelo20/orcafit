@@ -18,10 +18,22 @@ namespace orcafit.Controllers
         }
         //  Sentencias de inyeccion     ˄˄˄
 
+        public IActionResult ErrorUsuarios()
+        {
+            return View();
+        }
+
         public async Task<IActionResult> Index()
         {
             List<Usuario> usuarios = await this.service.GetUsuarios();
-            return View(usuarios);
+            if(usuarios.Count != 0)
+            {
+                return View(usuarios);
+            }
+            else
+            {
+                return RedirectToAction("ErrorUsuarios");
+            }
         }
     }
 }

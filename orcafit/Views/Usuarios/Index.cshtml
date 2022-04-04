@@ -16,7 +16,7 @@
                         <img src="@user.Imagen" class="rounded-3 me-3 border" style="height: 75px; width: 75px; min-height: 75px; min-width: 75px; object-fit: cover;" />
                         <div style="height: 75px;" class="d-flex flex-column justify-content-end">
                             <div class="d-flex align-items-center mb-2"><p class="fw-medium lead my-0 text-capitalize">@user.Username</p><p class="badge rounded-3 bg-primary my-0 ms-2 text-lowercase">@user.Role</p></div>
-                            <p class="mb-0">Usuario desde @user.Fecha.ToString().Substring(0, 10).</p>
+                            <p class="mb-0">Usuario desde @user.Fecha.ToShortDateString().</p>
                         </div>
                     </div>
                 </div>
