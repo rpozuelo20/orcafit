@@ -47,7 +47,7 @@
                         {
                             <div class="row flex-lg-row align-items-center g-5 mb-3">
                                 <div class="col-5 pe-2" style="height: 175px;">
-                                    <img class="w-100 h-100 border rounded-3" style="object-fit:cover;" src="~/uploadFiles/images/@item.Imagen" />
+                                    <img class="w-100 h-100 border rounded-3" style="object-fit:cover;" src="@item.Imagen" />
                                 </div>
                                 <div class="col-7 align-items-start ps-2">
                                     <div style="height: 105.3px;">
@@ -60,7 +60,7 @@
                                     </div>
                                     <div>
                                         <p class="badge rounded-3 bg-secondary mb-2">@item.Categoria</p>
-                                        <p class="badge rounded-3 bg-dark mb-2">@item.Fecha.ToString().Substring(0, 10)</p>
+                                        <p class="badge rounded-3 bg-dark mb-2">@item.Fecha.ToShortDateString()</p>
                                     </div>
                                     <a asp-controller="Rutinas" asp-action="Rutina" asp-route-id="@item.IdRutina" class="btn btn-primary fw-medium m-0">Empezar rutina</a>
                                 </div>

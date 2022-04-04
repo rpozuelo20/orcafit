@@ -16,16 +16,4 @@
     <PackageReference Include="System.Drawing.Common" Version="5.0.3" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\js\" />
-    <Folder Include="wwwroot\js\" />
-    <Folder Include="wwwroot\js\" />
-    <Folder Include="wwwroot\js\" />
-    <Folder Include="wwwroot\uploadFiles\images\" />
-    <Folder Include="wwwroot\uploadFiles\images\" />
-    <Folder Include="wwwroot\uploadFiles\users\" />
-    <Folder Include="wwwroot\uploadFiles\users\" />
-    <Folder Include="wwwroot\uploadFiles\users\" />
-  </ItemGroup>
-
 </Project>

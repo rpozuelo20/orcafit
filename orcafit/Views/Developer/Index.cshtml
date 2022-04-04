@@ -3,9 +3,11 @@
 }
 
 <div class="container p-4" style="top: -86px; position: relative;">
-    <h1>Administracion</h1>
-    <hr />
-    <p>
-        <a asp-action="Rutinas" asp-controller="Developer">Rutinas</a>
-    </p>
+    <nav style="--bs-breadcrumb-divider: '|';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Orcafit</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Administración</li>
+            <li class="breadcrumb-item"><a asp-controller="Developer" asp-action="Rutinas">Rutinas</a></li>
+        </ol>
+    </nav>
 </div>

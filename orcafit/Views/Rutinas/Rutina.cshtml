@@ -15,7 +15,7 @@
             </div>
             <div class="row align-items-start g-5 py-5 px-4">
                 <video class="w-100" style="height: 50vw; max-height: 660px; min-height: 220px; margin-top: 0px; padding-right: 0 !important; padding-left: 0 !important; background-color: black;" controls>
-                    <source src="~/uploadFiles/videos/@Model.Video" type="video/mp4" />
+                    <source src="@Model.Video" type="video/mp4" />
                 </video>
             </div>
             <div class="row flex-lg-row align-items-start g-5 p-0">
@@ -23,7 +23,7 @@
                     <h2 class="fw-medium mb-3">@Model.Nombre</h2>
                     <p>@Html.Raw(Model.RutinaTexto)</p>
                     <p class="badge rounded-3 bg-secondary">@Model.Categoria</p>
-                    <p class="badge rounded-3 bg-dark">@Model.Fecha.ToString().Substring(0, 10)</p>
+                    <p class="badge rounded-3 bg-dark">@Model.Fecha.ToShortDateString()</p>
                 </div>
                 <div class="col-lg-5 p-4 pb-0 mt-0">
                     <form class="w-100 d-flex mb-2" method="post">

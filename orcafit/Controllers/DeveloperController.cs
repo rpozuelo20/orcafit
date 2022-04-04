@@ -42,8 +42,8 @@ namespace orcafit.Controllers
         public async Task<IActionResult> CreateRutina(string nombre, string rutinatexto, IFormFile video, IFormFile imagen, string categoria)
         {
             string token = HttpContext.User.FindFirst("TOKEN").Value;
-            string blobimageName =nombre+"_image.png";
-            string blobvideoName =nombre+"_video.mp4";
+            string blobimageName = DateTime.UtcNow.ToString() + imagen.FileName;
+            string blobvideoName = DateTime.UtcNow.ToString() + video.FileName;
             using(Stream streamvideo = video.OpenReadStream())
             {
                 await this.serviceBlobs.UploadBlobAsync("rutinascontainer", blobvideoName, streamvideo);

@@ -5,32 +5,41 @@
 }
 
 <div class="container p-4" style="top: -86px; position: relative;">
-    <h1>CreateRutina</h1>
-
-    <h4>Rutina</h4>
+    <nav style="--bs-breadcrumb-divider: '|';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Orcafit</a></li>
+            <li class="breadcrumb-item"><a asp-controller="Developer" asp-action="Index">Administración</a></li>
+            <li class="breadcrumb-item"><a asp-controller="Developer" asp-action="Rutinas">Rutinas</a></li>
+        </ol>
+    </nav>
+    <nav style="--bs-breadcrumb-divider: '|';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">Crear rutina</li>
+        </ol>
+    </nav>
     <hr />
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
             <form method="post" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label>Nombre: </label>
-                    <input name="nombre" type="text" />
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre de la rutina:</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre">
                 </div>
-                <div class="form-group">
-                    <label>RutinaTexto: </label>
-                    <textarea name="rutinatexto"></textarea>
+                <div class="mb-3">
+                    <label for="rutinatexto" class="form-label">Texto de la rutina:</label>
+                    <textarea class="form-control" id="rutinatexto" rows="3" name="rutinatexto"></textarea>
                 </div>
-                <div class="form-group">
-                    <label>Video: </label>
-                    <input name="video" type="file" />
+                <div class="mb-3">
+                    <label for="video" class="form-label">Video de la rutina:</label>
+                    <input type="file" class="form-control form-control-sm" id="video" name="video">
                 </div>
-                <div class="form-group">
-                    <label>Imagen: </label>
-                    <input name="imagen" type="file" />
+                <div class="mb-3">
+                    <label for="imagen" class="form-label">Imagen de la rutina:</label>
+                    <input type="file" class="form-control form-control-sm" id="imagen" name="imagen">
                 </div>
-                <div>
-                    <label class="control-label">Categoria</label>
-                    <select name="categoria">
+                <div class="mb-3">
+                    <select class="form-select" name="categoria">
+                        <option selected disabled>Categoría de la rutina</option>
                         @if (ViewBag.Categorias != null)
                         {
                             @foreach (Categoria item in ViewBag.Categorias)
@@ -40,14 +49,10 @@
                         }
                     </select>
                 </div>
-                <div>
-                    <button>Create</button>
+                <div class="mb-3">
+                    <button class="btn btn-primary">Crear rutina</button>
                 </div>
             </form>
         </div>
-    </div>
-
-    <div>
-        <a asp-controller="Developer" asp-action="Rutinas">Back to List</a>
     </div>
 </div>

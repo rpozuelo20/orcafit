@@ -5,32 +5,57 @@
 }
 
 <div class="container p-4" style="top: -86px; position: relative;">
-    <h1>Rutinas</h1>
+    <nav style="--bs-breadcrumb-divider: '|';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Orcafit</a></li>
+            <li class="breadcrumb-item"><a asp-controller="Developer" asp-action="Index">Administración</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Rutinas</li>
+        </ol>
+    </nav>
+    <nav style="--bs-breadcrumb-divider: '|';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Developer" asp-action="CreateRutina">Crear rutina</a></li>
+        </ol>
+    </nav>
     <hr />
-    <p>
-        <a asp-action="CreateRutina">Create New</a>
-    </p>
     @if (Model != null)
     {
-        @foreach(Rutina rutina in Model) 
-        {
-        <ul style="list-style:none;">
-            <li class="fw-bold display-1">
-                @rutina.Nombre
-            </li>
-            <li>
-                @rutina.RutinaTexto
-            </li>
-            <li>
-                @rutina.Video
-            </li>
-            <li>
-                @rutina.Imagen
-            </li>
-            <li>
-                @rutina.Categoria
-            </li>
-        </ul>
-        }
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Rutina</th>
+                    <th>Video</th>
+                    <th>Imagen</th>
+                    <th>Fecha</th>
+                    <th>Categoría</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Rutina rutina in Model)
+                {
+                    <tr>
+                        <td>
+                            @rutina.Nombre
+                        </td>
+                        <td>
+                            @rutina.RutinaTexto
+                        </td>
+                        <td>
+                            @rutina.Video.Substring(0, 50)
+                        </td>
+                        <td>
+                            @rutina.Imagen.Substring(0, 50)
+                        </td>
+                        <td>
+                            @rutina.Fecha
+                        </td>
+                        <td>
+                            @rutina.Categoria
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     }
 </div>

@@ -31,6 +31,10 @@ namespace orcafit.Controllers
         }
         //  Sentencias de inyeccion     ˄˄˄
 
+        public IActionResult ErrorAcceso()
+        {
+            return View();
+        }
 
         public IActionResult LogIn()
         {
