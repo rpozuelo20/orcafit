@@ -4,8 +4,19 @@
 @section css{
     <link href="~/css/home.css" rel="stylesheet" />
 }
+@section scripts{
+    <script>
+    $(document).ready(function () {
+        $("#btnSignup").click(function () {
+            $("#ctnLoading").removeClass("d-none");
+            $("#ctnLoading").addClass("d-flex");
+        });
+    });
+    </script>
+}
 
 <div class="w-100 d-flex align-items-center justify-content-center" style="min-height: 100vh; position: relative; margin-top: -86px; background: #101214; background-image: radial-gradient(#585B5E 1px, transparent 0); background-size: 19px 19px; background-position: -10px -10px; box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.5) inset; ">
+    <partial name="_PartialLoading" />
     <div class="container px-4 d-flex align-items-center justify-content-center">
         <div class="p-5 rounded-3 bg-white col-lg-6 border" style="max-width: 410px;">
             <h2 class="fw-medium mb-5">Crea un perfil ahora:</h2>
@@ -23,7 +34,7 @@
                     <input class="form-control" type="file" id="formFile" name="imagen" accept=".png, .jpg, .jpeg">
                 </div>
                 <small class="text-muted">@ViewData["MENSAJE"]</small>
-                <button class="w-100 my-2 btn btn-lg rounded-4 btn-primary fw-medium" type="submit">Crear perfil</button>
+                <button class="w-100 my-2 btn btn-lg rounded-4 btn-primary fw-medium" type="submit" id="btnSignup">Crear perfil</button>
                 <small class="text-muted d-block">Al crear un perfil, acepta los términos de uso.</small>
                 <a asp-action="LogIn">
                     <small class="text-muted text-decoration-underline">

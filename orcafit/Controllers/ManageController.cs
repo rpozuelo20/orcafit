@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace orcafit.Controllers
@@ -49,31 +50,42 @@ namespace orcafit.Controllers
         [HttpPost]
         public async Task<IActionResult> LogIn(string username, string password)
         {
-            username = username.ToLower();
-            string token = await this.helperApi.GetTokenAsync(username, password);
-
-            if (token == null)
+            if(username != null && password != null)
             {
-                ViewData["MENSAJE"] = "Credenciales incorrectas.";
-                return View();
+                username = username.ToLower();
+                string token = await this.helperApi.GetTokenAsync(username, password);
+
+                if (token == null)
+                {
+                    ViewData["MENSAJE"] = "Credenciales incorrectas.";
+                    Thread.Sleep(1000);
+                    return View();
+                }
+                else
+                {
+                    Usuario usuario = await this.helperApi.GetPerfilUsuarioAsync(token);
+                    ClaimsIdentity identity = new ClaimsIdentity
+                        (CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
+                    identity.AddClaim(new Claim(ClaimTypes.Name, usuario.Username));
+                    identity.AddClaim(new Claim(ClaimTypes.Role, usuario.Role));
+                    identity.AddClaim(new Claim("image", usuario.Imagen));
+                    identity.AddClaim(new Claim("iduser", usuario.IdUser.ToString()));
+                    identity.AddClaim(new Claim("fecha", usuario.Fecha.ToShortDateString()));
+                    identity.AddClaim(new Claim("TOKEN", token));
+                    ClaimsPrincipal userPrincipal = new ClaimsPrincipal(identity);
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal, new AuthenticationProperties
+                    {
+                        IsPersistent = true,
+                        ExpiresUtc = DateTime.UtcNow.AddMinutes(30)
+                    });
+                    Thread.Sleep(1000);
+                    return RedirectToAction("Index", "Home");
+                }
             } else
             {
-                Usuario usuario = await this.helperApi.GetPerfilUsuarioAsync(token);
-                ClaimsIdentity identity = new ClaimsIdentity
-                    (CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
-                identity.AddClaim(new Claim(ClaimTypes.Name, usuario.Username));
-                identity.AddClaim(new Claim(ClaimTypes.Role, usuario.Role));
-                identity.AddClaim(new Claim("image", usuario.Imagen));
-                identity.AddClaim(new Claim("iduser", usuario.IdUser.ToString()));
-                identity.AddClaim(new Claim("fecha", usuario.Fecha.ToShortDateString()));
-                identity.AddClaim(new Claim("TOKEN", token));
-                ClaimsPrincipal userPrincipal = new ClaimsPrincipal(identity);
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal, new AuthenticationProperties
-                {
-                    IsPersistent = true,
-                    ExpiresUtc = DateTime.UtcNow.AddMinutes(30)
-                });
-                return RedirectToAction("Index", "Home");
+                ViewData["MENSAJE"] = "Introduzca unas credenciales.";
+                Thread.Sleep(1000);
+                return View();
             }
         }
         public IActionResult SignUp()
@@ -90,22 +102,33 @@ namespace orcafit.Controllers
         [HttpPost]
         public async Task<IActionResult> SignUp(string username, string password, IFormFile imagen)
         {
-            username = username.ToLower();
-            Usuario usuario = await this.serviceUsuarios.ExisteUsuarioAsync(username);
-            if (usuario == null)
+            if(username != null && password != null && imagen != null)
             {
-                string blobName = username + "_" + imagen.FileName;
-                using(Stream stream = imagen.OpenReadStream())
+                username = username.ToLower();
+                Usuario usuario = await this.serviceUsuarios.ExisteUsuarioAsync(username);
+                if (usuario == null)
                 {
-                    await this.serviceBlobs.UploadBlobAsync("usuarioscontainer", blobName, stream);
+                    string blobName = username + "_" + imagen.FileName;
+                    using (Stream stream = imagen.OpenReadStream())
+                    {
+                        await this.serviceBlobs.UploadBlobAsync("usuarioscontainer", blobName, stream);
+                    }
+                    BlobClass blob = await this.serviceBlobs.GetBlobAsync("usuarioscontainer", blobName);
+                    await this.serviceUsuarios.InsertUsuarioAsync(username, password, blob.Url);
+                    Thread.Sleep(1000);
+                    return RedirectToAction("LogIn");
                 }
-                BlobClass blob = await this.serviceBlobs.GetBlobAsync("usuarioscontainer", blobName);
-                await this.serviceUsuarios.InsertUsuarioAsync(username, password, blob.Url);
-                return RedirectToAction("LogIn");
+                else
+                {
+                    ViewData["MENSAJE"] = "El usuario ya existe, inicie sesión.";
+                    Thread.Sleep(1000);
+                    return View();
+                }
             }
             else
             {
-                ViewData["MENSAJE"] = "El usuario ya existe, inicie sesión.";
+                ViewData["MENSAJE"] = "Introduzca unas credenciales.";
+                Thread.Sleep(1000);
                 return View();
             }
         }
