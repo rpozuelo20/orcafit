@@ -5,6 +5,20 @@
 @{
     ViewBag.ViewName = Model.Nombre.ToLower();
 }
+@section scripts{ 
+    <script>
+        $(document).ready(function () {
+            $("#comentariotexto").on("keyup", function () {
+                if ($("#comentariotexto").val().length > 0) {
+                    $("#btnenviar").attr("disabled", false);
+                } else
+                {
+                    $("#btnenviar").attr("disabled", "disabled");
+                }
+            });
+        });
+    </script>
+}
 
 <div class="w-100" style="min-height: calc(100vh - 86px);">
     <div class="container col p-4">
@@ -34,7 +48,8 @@
                                    style="border-radius:.25rem 0rem 0rem .25rem;">
                         </div>
                         <button class="btn btn-primary fw-medium"
-                                style="border-radius:0rem .25rem .25rem 0rem;">
+                                style="border-radius:0rem .25rem .25rem 0rem;"
+                                id="btnenviar" disabled="disabled">
                             Enviar
                         </button>
                     </form>
@@ -44,9 +59,11 @@
                         {
                             <div class="d-flex pt-3">
                                 <img class="me-2 rounded-3" width="32" height="32" src="@item.Imagen" />
-
                                 <p class="pb-3 mb-0 small lh-sm w-100" style="line-break: anywhere;">
-                                    <span class="d-flex fw-medium text-capitalize justify-content-between"><span>@item.Username</span><span class="text-muted text-light small">@item.Fecha.ToString().Substring(0, 10)</span></span>
+                                    <span class="d-flex fw-medium text-capitalize justify-content-between">
+                                        <span>@item.Username</span>
+                                        <span class="text-muted text-light small">@item.Fecha.ToString().Substring(0, 10)</span>
+                                    </span>
                                     @item.ComentarioTexto
                                 </p>
                             </div>

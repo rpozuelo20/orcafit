@@ -13,7 +13,7 @@ namespace orcafit.Helpers
 {
     public class HelperTokenCallApi
     {
-        //  Sentencias de inyeccion     ⌄⌄⌄
+        #region INYECCION DE DEPENDENCIAS
         private string UrlApi;
         private MediaTypeWithQualityHeaderValue Header;
         public HelperTokenCallApi(string urlapi)
@@ -21,10 +21,10 @@ namespace orcafit.Helpers
             this.UrlApi = urlapi;
             this.Header = new MediaTypeWithQualityHeaderValue("application/json");
         }
-        //  Sentencias de inyeccion     ˄˄˄
+        #endregion
 
 
-        //  Metodo para poder recuperar nuestro Token:
+        //  Metodo para poder recuperar nuestro Token.
         public async Task<string> GetTokenAsync(string username, string password)
         {
             using (HttpClient client = new HttpClient())
@@ -54,7 +54,7 @@ namespace orcafit.Helpers
                 }
             }
         }
-        //  Metodo para poder realizar la llamada a la Api sin seguridad:
+        //  Metodo para poder realizar la llamada a la Api sin seguridad.
         public async Task<T> CallApiAsync<T>(string request)
         {
             using (HttpClient client = new HttpClient())
@@ -74,7 +74,7 @@ namespace orcafit.Helpers
                 }
             }
         }
-        //  Metodo para poder realizar la llamada a la Api con seguridad:
+        //  Metodo para poder realizar la llamada a la Api con seguridad.
         public async Task<T> CallApiAsync<T>(string request, string token)
         {
             using (HttpClient client = new HttpClient())
@@ -95,7 +95,7 @@ namespace orcafit.Helpers
                 }
             }
         }
-        //  Metodo para poder recuperar nuestro usuario iniciado mediante el Token:
+        //  Metodo para poder recuperar nuestro usuario iniciado mediante el Token.
         public async Task<Usuario> GetPerfilUsuarioAsync(string token)
         {
             string request = "/api/usuarios/getperfilusuario";

@@ -28,7 +28,7 @@ namespace orcafit
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //  Cookies para autenticacion:
+            //  Añado las Cookies para el Authentication.
             services.AddAuthentication(options =>
             {
                 options.DefaultSignInScheme =
@@ -38,30 +38,29 @@ namespace orcafit
                 options.DefaultChallengeScheme =
                 CookieAuthenticationDefaults.AuthenticationScheme;
             }).AddCookie();
-            //  Cadenas de conexion:
+            //  Almaceno la url de la API y la Key del Storage.
             string urlapi = this.Configuration.GetValue<string>("ApiUrls:orcafitApi");
             string azStorageKeys = this.Configuration.GetConnectionString("orcafitAzStorageKeys");
-            //  Llamada del heperTokenCallApi e inyeccion de los servicios:
+            //  Realizo la inyeccion de los servicios que se van a utilizar.
             HelperTokenCallApi helperTokenCallApi = new HelperTokenCallApi(urlapi);
             ServiceRutinas serviceRutinas = new ServiceRutinas(helperTokenCallApi, urlapi);
             ServiceUsuarios serviceUsuarios = new ServiceUsuarios(helperTokenCallApi, urlapi);
-            //  -creacion del cliente Blob mediante nuestra Key:
             BlobServiceClient blobServiceClient = new BlobServiceClient(azStorageKeys);
-            //  -inyeccion de los servicios para las llamadas de la api y sus respectivos metodos:
+            //  Realizo la inyeccion de los servicios que se van a utilizar.
             services.AddTransient<HelperTokenCallApi>(x => helperTokenCallApi);
             services.AddTransient<ServiceRutinas>(x => serviceRutinas);
             services.AddTransient<ServiceUsuarios>(x => serviceUsuarios);
-            //  -inyeccion de los servicios para el uso de storageBlobs:
             services.AddTransient<BlobServiceClient>(x => blobServiceClient);
             services.AddTransient<ServiceStorageBlobs>();
-            //  Se añade la memoria cache y sesion para poder usarla con la seguridad y almacenar el token:
+            //  Añado la MemoryCache y Session (es parte del tema de autenticacion y almacenar datos en sesion).
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
                 options.Cookie.IsEssential = true;
             });
-
+            //  Añado SignalR para poder usar el chat.
+            services.AddSignalR();
 
             services.AddControllersWithViews(options => options.EnableEndpointRouting = false);
         }
@@ -83,14 +82,20 @@ namespace orcafit
             app.UseStaticFiles();
 
             app.UseRouting();
-
-            app.UseAuthentication();    //  Necesario realizar el uso de Authentication para la seguridad.
+            //  Necesario realizar el uso de Authentication para la seguridad.
+            app.UseAuthentication();
 
             app.UseAuthorization();
+            //  Necesario realizar el uso de Session para la seguridad.
+            app.UseSession();
 
-            app.UseSession();   //  Necesario realizar el uso de Session para la seguridad.
-
-            //  Recordemos que esta parte esta modificada, ahora es UseMvc:
+            //  UseEndpoints para poder usar SignalR.
+            app.UseEndpoints(endpoints =>
+            {
+                //  Añado el endpoint de chat.
+                endpoints.MapHub<ChatHub>("/Chat");
+            });
+            //  UseMvc para poder mapear las rutas.
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

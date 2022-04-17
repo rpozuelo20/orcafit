@@ -1,0 +1,63 @@
+﻿@model int
+@section scripts{
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+    <script>
+    var connection = new signalR.HubConnectionBuilder().withUrl("/Chat").build();
+    connection.start().then(() => {
+        connection.invoke("AddToGroup", "@Model")
+    }).catch((e) => console.error(e));
+
+
+    document.getElementById("btnSend").addEventListener("click", (event) => {
+        let room = "@Model";
+        let user = "@Context.User.Identity.Name.ToString().ToLower()";
+        let message = document.getElementById("text").value;
+        let image = "@Context.User.FindFirst("image").Value.ToString()";
+
+        connection.invoke("SendMessage", room, user, message, image).catch((err) => console.error(err.toString()));
+
+        document.getElementById("text").value = "";
+
+        event.preventDefault();
+    });
+
+    connection.on("ReceiveMessage", (user, message, image, time) => {
+        var message = `<div class="d-flex pt-3"><img class="me-2 rounded-3" width="32" height="32" src="${image}" /><p class="pb-3 mb-0 small lh-sm w-100" style="line-break: anywhere;"><span class="d-flex fw-medium text-capitalize justify-content-between"><span>${user}</span><span class="text-muted text-light small">${time}</span></span>${message}</p></div>`;
+        document.getElementById("messages").innerHTML = message + document.getElementById("messages").innerHTML;
+    });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#text").on("keyup", function () {
+                if ($("#text").val().length > 0) {
+                    $("#btnSend").attr("disabled", false);
+                } else {
+                    $("#btnSend").attr("disabled", "disabled");
+                }
+            });
+        });
+    </script>
+}
+<div class="w-100" style="min-height: calc(100vh - 86px);">
+    <div class="container col p-4">
+        <div class="row flex-lg-row align-items-start g-5 pb-0 ps-0 pe-0 pt-4">
+            <div class="col-lg-7 p-4 pb-0 mt-0">
+                <form class="w-100 d-flex mb-2" method="post">
+                    <div style="max-width: calc(100% - 70.1833px);" class="w-100">
+                        <input type="text" class="form-control" id="text"
+                               placeholder="Introduzca un mensaje"
+                               style="border-radius:.25rem 0rem 0rem .25rem;">
+                    </div>
+                    <button class="btn btn-primary fw-medium"
+                            style="border-radius:0rem .25rem .25rem 0rem;"
+                            id="btnSend" disabled="disabled">
+                        Enviar
+                    </button>
+                </form>
+                <div class="scroll-none" style="max-height: 600px;" id="messages"></div>
+            </div>
+            <div class="col-lg-5 p-4 pb-0 mt-0">
+            </div>
+        </div>
+    </div>
+</div>

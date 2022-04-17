@@ -13,7 +13,7 @@ namespace orcafit.Services
 {
     public class ServiceUsuarios
     {
-        //  Sentencias comunes en los services   ⌄⌄⌄
+        #region INYECCION DE DEPENDENCIAS
         private HelperTokenCallApi helperApi;
         private Uri UriApi;
         private MediaTypeWithQualityHeaderValue Header;
@@ -23,9 +23,22 @@ namespace orcafit.Services
             this.UriApi = new Uri(url);
             this.Header = new MediaTypeWithQualityHeaderValue("application/json");
         }
-        //  Sentencias comunes en los services   ˄˄˄
+        #endregion
 
-        
+
+        //  Metodos para los usuarios.
+        public async Task<List<Usuario>> GetUsuarios()
+        {
+            string request = "/api/usuarios";
+            List<Usuario> usuarios = await this.helperApi.CallApiAsync<List<Usuario>>(request);
+            return usuarios;
+        }
+        public async Task<Usuario> ExisteUsuarioAsync(string username)
+        {
+            string request = "/api/usuarios/" + username;
+            Usuario usuario = await this.helperApi.CallApiAsync<Usuario>(request);
+            return usuario;
+        }
         public async Task InsertUsuarioAsync(string username, string password, string image)
         {
             using (HttpClient client = new HttpClient())
@@ -44,18 +57,6 @@ namespace orcafit.Services
                 HttpResponseMessage response =
                     await client.PostAsync(request, content);
             }
-        }
-        public async Task<Usuario> ExisteUsuarioAsync(string username)
-        {
-            string request = "/api/usuarios/" + username;
-            Usuario usuario = await this.helperApi.CallApiAsync<Usuario>(request);
-            return usuario;
-        }
-        public async Task<List<Usuario>> GetUsuarios()
-        {
-            string request = "/api/usuarios";
-            List<Usuario> usuarios = await this.helperApi.CallApiAsync<List<Usuario>>(request);
-            return usuarios;
         }
     }
 }

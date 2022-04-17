@@ -14,7 +14,7 @@ namespace orcafit.Controllers
     [AuthorizeAdmin]
     public class DeveloperController : Controller
     {
-        //  Sentencias de inyeccion     ⌄⌄⌄
+        #region INYECCION DE DEPENDENCIAS
         private ServiceRutinas service;
         private ServiceStorageBlobs serviceBlobs;
         public DeveloperController(ServiceRutinas service, ServiceStorageBlobs serviceBlobs)
@@ -22,7 +22,8 @@ namespace orcafit.Controllers
             this.service = service;
             this.serviceBlobs = serviceBlobs;
         }
-        //  Sentencias de inyeccion     ˄˄˄
+        #endregion
+
 
         public IActionResult Index()
         {
