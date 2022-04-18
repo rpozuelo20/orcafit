@@ -1,4 +1,7 @@
 ﻿@model int
+@{
+    ViewBag.ViewName = "chat";
+}
 @section scripts{
     <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
     <script>
@@ -35,13 +38,21 @@
                     $("#btnSend").attr("disabled", "disabled");
                 }
             });
+            $("#btnSend").on("click", function () {
+                if ($("#text").val().length > 0) {
+                    $("#btnSend").attr("disabled", false);
+                } else {
+                    $("#btnSend").attr("disabled", "disabled");
+                }
+            });
         });
     </script>
 }
 <div class="w-100" style="min-height: calc(100vh - 86px);">
     <div class="container col p-4">
         <div class="row flex-lg-row align-items-start g-5 pb-0 ps-0 pe-0 pt-4">
-            <div class="col-lg-7 p-4 pb-0 mt-0">
+            <div class="col-lg-12 p-4 pb-0 mt-0">
+                <p class="w-100 border mb-2 px-2 py-2 text-muted text-center bg-light rounded-3">Bienvenidos al chat general</p>
                 <form class="w-100 d-flex mb-2" method="post">
                     <div style="max-width: calc(100% - 70.1833px);" class="w-100">
                         <input type="text" class="form-control" id="text"
@@ -54,9 +65,7 @@
                         Enviar
                     </button>
                 </form>
-                <div class="scroll-none" style="max-height: 600px;" id="messages"></div>
-            </div>
-            <div class="col-lg-5 p-4 pb-0 mt-0">
+                <div class="scroll-none" style="max-height: calc(100vh - 230px); height: calc(100vh - 230px); min-height: calc(100vh - 230px); " id="messages"></div>
             </div>
         </div>
     </div>
