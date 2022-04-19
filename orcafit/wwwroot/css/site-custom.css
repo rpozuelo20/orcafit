@@ -30,3 +30,7 @@
         left: 0 !important;
     }
 }
+
+.btn {
+    white-space: nowrap !important;
+}
