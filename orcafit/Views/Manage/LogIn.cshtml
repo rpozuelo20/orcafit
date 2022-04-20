@@ -11,6 +11,13 @@
             $("#ctnLoading").removeClass("d-none");
             $("#ctnLoading").addClass("d-flex");
         });
+        $("#floatingInput, #floatingPassword").on("keyup", function () {
+            if ($("#floatingInput").val().length > 0 && $("#floatingPassword").val().length > 0) {
+                $("#btnLogin").attr("disabled", false);
+            } else {
+                $("#btnLogin").attr("disabled", "disabled");
+            }
+        });
     });
 </script>
 }
@@ -30,7 +37,7 @@
                     <label for="floatingPassword">Contraseña</label>
                 </div>
                 <small class="text-muted">@ViewData["MENSAJE"]</small>
-                <button class="w-100 my-2 btn btn-lg rounded-4 btn-primary fw-medium" type="submit" id="btnLogin">Iniciar sesión</button>
+                <button class="w-100 my-2 btn btn-lg rounded-4 btn-primary fw-medium" type="submit" id="btnLogin" disabled="disabled">Iniciar sesión</button>
                 <small class="text-muted d-block">Al iniciar sesión, acepta los términos de uso.</small>
                 <a asp-action="SignUp">
                     <small class="text-muted text-decoration-underline">

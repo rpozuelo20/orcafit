@@ -6,12 +6,26 @@
 }
 @section scripts{
     <script>
-    $(document).ready(function () {
-        $("#btnSignup").click(function () {
-            $("#ctnLoading").removeClass("d-none");
-            $("#ctnLoading").addClass("d-flex");
+        $(document).ready(function () {
+            $("#btnSignup").click(function () {
+                $("#ctnLoading").removeClass("d-none");
+                $("#ctnLoading").addClass("d-flex");
+            });
+            $("#floatingInput, #floatingPassword").on("keyup", function () {
+                if ($("#floatingInput").val().length > 0 && $("#floatingPassword").val().length > 0 && $("#formFile").val().length > 0) {
+                    $("#btnSignup").attr("disabled", false);
+                } else {
+                    $("#btnSignup").attr("disabled", "disabled");
+                }
+            });
+            $("#formFile").change(function () {
+                if ($("#floatingInput").val().length > 0 && $("#floatingPassword").val().length > 0 && $("#formFile").val().length > 0) {
+                    $("#btnSignup").attr("disabled", false);
+                } else {
+                    $("#btnSignup").attr("disabled", "disabled");
+                }
+            });
         });
-    });
     </script>
 }
 
@@ -34,7 +48,7 @@
                     <input class="form-control" type="file" id="formFile" name="imagen" accept=".png, .jpg, .jpeg">
                 </div>
                 <small class="text-muted">@ViewData["MENSAJE"]</small>
-                <button class="w-100 my-2 btn btn-lg rounded-4 btn-primary fw-medium" type="submit" id="btnSignup">Crear perfil</button>
+                <button class="w-100 my-2 btn btn-lg rounded-4 btn-primary fw-medium" type="submit" id="btnSignup" disabled="disabled">Crear perfil</button>
                 <small class="text-muted d-block">Al crear un perfil, acepta los términos de uso.</small>
                 <a asp-action="LogIn">
                     <small class="text-muted text-decoration-underline">
