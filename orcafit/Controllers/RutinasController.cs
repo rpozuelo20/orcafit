@@ -60,7 +60,7 @@ namespace orcafit.Controllers
                     List<Rutina> buscador = new List<Rutina>();
                     foreach (Rutina rutina in rutinas)
                     {
-                        if (rutina.Nombre.Contains(nombre))
+                        if (rutina.Nombre.ToLower().Contains(nombre.ToLower()))
                         {
                             buscador.Add(rutina);
                         }
@@ -72,7 +72,7 @@ namespace orcafit.Controllers
                     List<Rutina> buscador = new List<Rutina>();
                     foreach (Rutina rutina in rutinas)
                     {
-                        if (rutina.Categoria.Contains(categoria))
+                        if (rutina.Categoria.ToLower().Contains(categoria.ToLower()))
                         {
                             buscador.Add(rutina);
                         }
@@ -85,7 +85,7 @@ namespace orcafit.Controllers
                     List<Rutina> buscador = new List<Rutina>();
                     foreach (Rutina rutina in rutinas)
                     {
-                        if (rutina.Nombre.Contains(nombre) && rutina.Categoria.Contains(categoria))
+                        if (rutina.Nombre.ToLower().Contains(nombre.ToLower()) && rutina.Categoria.ToLower().Contains(categoria.ToLower()))
                         {
                             buscador.Add(rutina);
                         }
@@ -105,8 +105,8 @@ namespace orcafit.Controllers
                 return RedirectToAction("ErrorRutinas");
             }
         }
-            //  Vista de rutina:
-            [AuthorizeUsuarios]
+        //  Vista de rutina:
+        [AuthorizeUsuarios]
         public async Task<IActionResult> Rutina(int id)
         {
             string token = HttpContext.User.FindFirst("TOKEN").Value;

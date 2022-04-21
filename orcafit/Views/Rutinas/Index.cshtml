@@ -16,6 +16,9 @@
                     $("#btnbuscar").attr("disabled", "disabled");
                 }
             });
+            $("#categoria").change(function () {
+                $("#btnbuscar").attr("disabled", false);
+            });
         });
     </script>
 }
@@ -39,7 +42,7 @@
                     </div>
                     <div class="w-100 d-flex">
                         <div class="w-100 pe-2" style="max-width: calc(100% - 143.81px);">
-                            <select class="form-select" name="categoria">
+                            <select class="form-select" name="categoria" id="categoria">
                                 <option disabled selected>Selecione una categoría</option>
                                 @if (ViewBag.Categorias != null)
                                 {
