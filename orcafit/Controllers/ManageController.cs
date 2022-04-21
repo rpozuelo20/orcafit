@@ -172,5 +172,60 @@ namespace orcafit.Controllers
             ViewBag.UserFecha = HttpContext.User.FindFirst("fecha").Value.ToString();
             return View();
         }
+        [HttpPost]
+        public async Task<IActionResult> PerfilUsuario(IFormFile imagen)
+        {
+            //  Recupero el token y usuario antiguos con los que he iniciado la sesion.
+            string oldToken = HttpContext.User.FindFirst("TOKEN").Value;
+            Usuario oldUsuario = await this.helperApi.GetPerfilUsuarioAsync(oldToken);
+            //  Recupero el tamaño de KB que tiene la imagen.
+            var imageSize = imagen.Length;
+            //  Si la imagen es menor a 100KB entonces puede proseguir.
+            if (imageSize < 100000)
+            {
+                //  Parte de eliminacion del antiguo blob y añado el nuevo.
+                BlobClass oldBlob = await this.serviceBlobs.GetBlobWithUrlAsync("usuarioscontainer", oldUsuario.Imagen);
+                await this.serviceBlobs.DeleteBlobAsync("usuarioscontainer", oldBlob.Nombre);
+                string blobName = oldUsuario.Username + "_" + imagen.FileName;
+                using (Stream stream = imagen.OpenReadStream())
+                {
+                    await this.serviceBlobs.UploadBlobAsync("usuarioscontainer", blobName, stream);
+                }
+                BlobClass blob = await this.serviceBlobs.GetBlobAsync("usuarioscontainer", blobName);
+                //  Actualizo la imagen de usuario con la nueva url y el token antiguo.
+                await this.serviceUsuarios.UpdateImagenUsuarioAsync(blob.Url, oldToken);
+                //  Recupero el token y usuario nuevo con el que he iniciado la sesion.
+                string newToken = await this.helperApi.GetTokenAsync(oldUsuario.Username, oldUsuario.Password);
+                Usuario newUsuario = await this.helperApi.GetPerfilUsuarioAsync(newToken);
+                //  Cierro la sesion y remuevo las cookies y el token.
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                HttpContext.Session.Remove("TOKEN");
+                //  Añado nuevas cookies y token.
+                ClaimsIdentity identity = new ClaimsIdentity
+                        (CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
+                identity.AddClaim(new Claim(ClaimTypes.Name, newUsuario.Username));
+                identity.AddClaim(new Claim(ClaimTypes.Role, newUsuario.Role));
+                identity.AddClaim(new Claim("image", newUsuario.Imagen));
+                identity.AddClaim(new Claim("iduser", newUsuario.IdUser.ToString()));
+                identity.AddClaim(new Claim("fecha", newUsuario.Fecha.ToShortDateString()));
+                identity.AddClaim(new Claim("TOKEN", newToken));
+                ClaimsPrincipal userPrincipal = new ClaimsPrincipal(identity);
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal, new AuthenticationProperties
+                {
+                    IsPersistent = true,
+                    ExpiresUtc = DateTime.UtcNow.AddMinutes(30)
+                });
+                //  Esperamos 1 segundo y reenviamos la vista al usuario.
+                TempData["MENSAJE"] = "Perfil actualizado con éxito.";
+                Thread.Sleep(1000);
+                return RedirectToAction("PerfilUsuario");
+            }
+            else
+            {
+                TempData["MENSAJE"] = "La imagen es muy grande, máximo 100KB.";
+                Thread.Sleep(1000);
+                return RedirectToAction("PerfilUsuario");
+            }
+        }
     }
 }

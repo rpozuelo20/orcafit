@@ -43,6 +43,12 @@ namespace orcafit.Services
             BlobClass blob = blobs.SingleOrDefault(x => x.Nombre == blobName);
             return blob;
         }
+        public async Task<BlobClass> GetBlobWithUrlAsync(string containerName, string blobUrl)
+        {
+            List<BlobClass> blobs = await this.GetBlobsAsync(containerName);
+            BlobClass blob = blobs.SingleOrDefault(x => x.Url == blobUrl);
+            return blob;
+        }
         //  METODO PARA ELIMINAR UN BLOB.
         public async Task DeleteBlobAsync(string containerName, string blobName)
         {

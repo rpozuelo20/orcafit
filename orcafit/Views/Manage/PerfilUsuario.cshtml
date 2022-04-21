@@ -1,26 +1,42 @@
-﻿<div class="w-100" style="min-height: calc(100vh - 86px);">
+﻿@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#formFile").change(function () {
+                $("#btnModificar").attr("disabled", false);
+            });
+        });
+    </script>
+}
+<div class="w-100" style="min-height: calc(100vh - 86px);">
     <div class="container p-4">
         <div class="row flex-lg-row align-items-start g-5">
             <div class="col-lg-5">
-                <div class="d-flex align-items-start">
+                <div class="d-flex align-items-start mb-3">
                     <img src="@ViewBag.UserImage" class="rounded-3 me-3 border" style="height: 100px; width: 100px; min-height: 75px; min-width: 75px; object-fit: cover;" />
                     <div style="height: 100px;" class="d-flex flex-column justify-content-end">
                         <div class="d-flex align-items-center mb-2"><p class="fw-medium lead my-0 text-capitalize">@ViewBag.UserName</p><p class="badge rounded-3 bg-primary my-0 ms-2 text-lowercase">@ViewBag.UserRole</p></div>
                         <p class="mb-0">Usuario desde @ViewBag.UserFecha.</p>
                     </div>
                 </div>
+                <div class="d-flex w-100">
+                    <p class="w-100 border mb-2 px-2 py-2 text-muted text-center bg-light rounded-3">Configuración del perfil</p>
+                </div>
+                <div class="w-100">
+                    <form method="post" enctype="multipart/form-data" accept="image/png, image/jpg, image/jpge">
+                        <div class="mb-2">
+                            <label for="formFile" class="px-2 py-2 border text-muted text-center bg-light badge col-12" style="border-radius: .3rem .3rem 0px 0px; border-bottom: none!important;">Imagen de perfil</label>
+                            <input class="form-control" type="file" id="formFile" name="imagen" accept=".png, .jpg, .jpeg" style="border-radius: 0px 0px .25rem .25rem !important">
+                        </div>
+                        @if (TempData["MENSAJE"] != null) 
+                        {
+                        <div class="mb-2"><small class="text-muted">@TempData["MENSAJE"]</small></div>
+                        }
+                        <button class="btn btn-primary fw-medium col-12 col-md-6 col-lg-6" type="submit" id="btnModificar" disabled="disabled">Modificar perfil</button>
+                    </form>
+                </div>
             </div>
             <div class="col-lg-7">
-                <div class="d-flex w-100">
-                    <p class="w-100 border mb-2 px-2 py-2 text-muted text-center bg-light" style="max-width: calc(100% - 42px); border-radius: .25rem 0rem 0rem .25rem;">Mis rutinas comenzadas</p>                   
-                    <a class="btn btn-primary mb-2 disabled" style="border-radius: 0rem .25rem .25rem 0rem;"><i class="bi bi-trash2-fill"></i></a>
-                </div>
-                    <div class="p-5 rounded-3 bg-white col-lg-6 border w-100">
-                        <h2 class="fw-medium mb-3">No dispones de rutinas comenzadas</h2>
-                        <p>Si lo desea, puede <span class="fw-bold">comenzar una rutina</span> presionando el siguiente botón.</p>
-                        <a class="btn w-100 btn-primary fw-medium"
-                           asp-controller="Rutinas" asp-action="Index">Ver rutinas</a>
-                    </div>
+
             </div>
         </div>
     </div>

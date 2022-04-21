@@ -10,8 +10,8 @@ namespace orcafit
     {
         public async Task SendMessage(string room, string user, string message, string image)
         {
-            DateTime time = DateTime.Now;
-            await Clients.Group(room).SendAsync("ReceiveMessage", user, message, image, time.ToShortTimeString().ToString());
+            DateTime time = DateTime.UtcNow;
+            await Clients.Group(room).SendAsync("ReceiveMessage", user, message, image, time.AddHours(2).ToShortTimeString().ToString());
         }
         public async Task AddToGroup(string room)
         {

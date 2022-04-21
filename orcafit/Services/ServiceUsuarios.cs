@@ -58,5 +58,23 @@ namespace orcafit.Services
                     await client.PostAsync(request, content);
             }
         }
+        public async Task UpdateImagenUsuarioAsync(string imagen, string token)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                string request = "/api/usuarios";
+                client.BaseAddress = this.UriApi;
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(this.Header);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                Usuario usuario = new Usuario();
+                usuario.Imagen = imagen;
+                string json = JsonConvert.SerializeObject(usuario);
+                StringContent content = new StringContent
+                    (json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response =
+                    await client.PutAsync(request, content);
+            }
+        }
     }
 }
