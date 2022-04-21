@@ -116,16 +116,26 @@ namespace orcafit.Controllers
                 Usuario usuario = await this.serviceUsuarios.ExisteUsuarioAsync(username);
                 if (usuario == null)
                 {
-                    //  Si el usuario no existe entonces podemos empezar almacenandolo en nuestra BBDD, redirigimos hacia la vista login.
-                    string blobName = username + "_" + imagen.FileName;
-                    using (Stream stream = imagen.OpenReadStream())
+                    var imageSize = imagen.Length;
+                    if (imageSize < 100000) 
                     {
-                        await this.serviceBlobs.UploadBlobAsync("usuarioscontainer", blobName, stream);
+                        //  Si el usuario no existe entonces podemos empezar almacenandolo en nuestra BBDD, redirigimos hacia la vista login.
+                        string blobName = username + "_" + imagen.FileName;
+                        using (Stream stream = imagen.OpenReadStream())
+                        {
+                            await this.serviceBlobs.UploadBlobAsync("usuarioscontainer", blobName, stream);
+                        }
+                        BlobClass blob = await this.serviceBlobs.GetBlobAsync("usuarioscontainer", blobName);
+                        await this.serviceUsuarios.InsertUsuarioAsync(username, password, blob.Url);
+                        Thread.Sleep(1000);
+                        return RedirectToAction("LogIn");
                     }
-                    BlobClass blob = await this.serviceBlobs.GetBlobAsync("usuarioscontainer", blobName);
-                    await this.serviceUsuarios.InsertUsuarioAsync(username, password, blob.Url);
-                    Thread.Sleep(1000);
-                    return RedirectToAction("LogIn");
+                    else
+                    {
+                        ViewData["MENSAJE"] = "La imagen es muy grande, máximo 100KB.";
+                        Thread.Sleep(1000);
+                        return View();
+                    }
                 }
                 else
                 {

@@ -5,77 +5,96 @@
 @{
     ViewBag.ViewName = "rutinas";
 }
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#nombre").on("keyup", function () {
+                if ($("#nombre").val().length > 0) {
+                    $("#btnbuscar").attr("disabled", false);
+                } else
+                {
+                    $("#btnbuscar").attr("disabled", "disabled");
+                }
+            });
+        });
+    </script>
+}
 
 <div class="w-100" style="min-height: calc(100vh - 86px);">
-        <div class="container p-4">
-            <div class="row flex-lg-row-reverse align-items-start g-5">
-                <div class="col-lg-5">
-                    <form class="w-100 d-flex align-items-end justify-content-start flex-column" method="post">
-                        <div class="w-100 d-flex mb-2">
-                            <div style="max-width: calc(100% - 120.983px);" class="w-100">
-                                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Introduzca la rutina a buscar"
-                                       style="border-radius:.25rem 0rem 0rem .25rem;" disabled>
-                            </div>
-                            <button class="btn btn-primary fw-medium"
-                                    style="border-radius:0rem .25rem .25rem 0rem;" disabled>
-                                Buscar rutina
-                            </button>
+    <div class="container p-4">
+        <div class="row flex-lg-row-reverse align-items-start g-5">
+            <div class="col-lg-5">
+                <form class="w-100 d-flex align-items-end justify-content-start flex-column" method="post">
+                    <div class="w-100 d-flex mb-2">
+                        <div style="max-width: calc(100% - 120.983px);" class="w-100">
+                            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Introduzca la rutina a buscar"
+                                   style="border-radius:.25rem 0rem 0rem .25rem;">
                         </div>
-                        <div class="w-100 d-flex">
-                            <div class="w-100 pe-2" style="max-width: calc(100% - 143.81px);">
-                                <select class="form-select" name="categoria" disabled>
-                                    <option disabled selected>Selecione una categoría</option>
-                                    @if (ViewBag.Categorias != null)
+                        <button class="btn btn-primary fw-medium"
+                                style="border-radius:0rem .25rem .25rem 0rem;"
+                                id="btnbuscar"
+                                disabled="disabled">
+                            Buscar rutina
+                        </button>
+                    </div>
+                    <div class="w-100 d-flex">
+                        <div class="w-100 pe-2" style="max-width: calc(100% - 143.81px);">
+                            <select class="form-select" name="categoria">
+                                <option disabled selected>Selecione una categoría</option>
+                                @if (ViewBag.Categorias != null)
+                                {
+                                    @foreach (Categoria item in ViewBag.Categorias)
                                     {
-                                        @foreach (Categoria item in ViewBag.Categorias)
-                                        {
-                                            <option value="@item.Nombre">@item.Nombre</option>
-                                        }
+                                        <option value="@item.Nombre">@item.Nombre</option>
                                     }
-                                </select>
-                            </div>
-                            <a class="btn btn-primary fw-medium disabled"
-                               asp-controller="Rutinas" asp-action="Index">Recargar rutinas</a>
+                                }
+                            </select>
                         </div>
-                    </form>
-                </div>
-                <div class="col-lg-7" style="min-height: 100%;">
-                    @if (Model.Count() != 0)
+                        <a class="btn btn-primary fw-medium"
+                           asp-controller="Rutinas" asp-action="Index">Recargar rutinas</a>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-7" style="min-height: 100%;">
+                @if (Model.Count() != 0)
+                {
+                    @foreach (Rutina item in Model)
                     {
-                        @foreach (Rutina item in Model)
-                        {
-                            <div class="row flex-lg-row align-items-center g-5 mb-3">
-                                <div class="col-5 pe-2" style="height: 175px;">
-                                    <img class="w-100 h-100 border rounded-3" style="object-fit:cover;" src="@item.Imagen" />
-                                </div>
-                                <div class="col-7 align-items-start ps-2">
-                                    <div style="height: 105.3px;">
-                                        <p class="fw-medium lead mb-2 text-nowrap">
-                                            @item.Nombre
-                                        </p>
-                                        <p class="mb-2" style="height: 59.3px; word-wrap: break-word;">@if (item.RutinaTexto.Length >= 50)
-                                        { @item.RutinaTexto.Substring(0, 50)<span>…</span> }
-                                        else { @item.RutinaTexto }</p>
-                                    </div>
-                                    <div>
-                                        <p class="badge rounded-3 bg-secondary mb-2">@item.Categoria</p>
-                                        <p class="badge rounded-3 bg-dark mb-2">@item.Fecha.ToShortDateString()</p>
-                                    </div>
-                                    <a asp-controller="Rutinas" asp-action="Rutina" asp-route-id="@item.IdRutina" class="btn btn-primary fw-medium m-0">Empezar rutina</a>
-                                </div>
+                        <div class="row flex-lg-row align-items-center g-5 mb-3">
+                            <div class="col-5 pe-2" style="height: 175px;">
+                                <img class="w-100 h-100 border rounded-3" style="object-fit:cover;" src="@item.Imagen" />
                             </div>
-                        }
-                    }
-                    else
-                    {
-                            <div class="p-5 rounded-3 bg-white col-lg-6 border w-100">
-                                <h2 class="fw-medium mb-3">Rutinas no disponibles</h2>
-                                <p>En estos momentos <span class="fw-bold">no disponemos de rutinas</span>, pero no te preocupes <span class="fw-bold">guerrero</span>, estamos trabajando para ofrecerte <span class="fw-bold">las mejores rutinas.</span></p>
-                                <a class="btn w-100 btn-primary fw-medium"
-                                   asp-controller="Home" asp-action="index">Volver</a>
+                            <div class="col-7 align-items-start ps-2">
+                                <div style="height: 105.3px;">
+                                    <p class="fw-medium lead mb-2 text-nowrap">
+                                        @item.Nombre
+                                    </p>
+                                    <p class="mb-2" style="height: 59.3px; word-wrap: break-word;">
+                                        @if (item.RutinaTexto.Length >= 50)
+                                        {@item.RutinaTexto.Substring(0, 50)<span>…</span> }
+                                    else
+                                    { @item.RutinaTexto}
+                                </p>
                             </div>
-                    }
-                </div>
+                            <div>
+                                <p class="badge rounded-3 bg-secondary mb-2">@item.Categoria</p>
+                                <p class="badge rounded-3 bg-dark mb-2">@item.Fecha.ToShortDateString()</p>
+                            </div>
+                            <a asp-controller="Rutinas" asp-action="Rutina" asp-route-id="@item.IdRutina" class="btn btn-primary fw-medium m-0">Empezar rutina</a>
+                        </div>
+                    </div>
+                }
+                }
+                else
+                {
+                    <div class="p-5 rounded-3 bg-white col-lg-6 border w-100">
+                        <h2 class="fw-medium mb-3">Rutinas no disponibles</h2>
+                        <p>En estos momentos <span class="fw-bold">no disponemos de rutinas</span>, pero no te preocupes <span class="fw-bold">guerrero</span>, estamos trabajando para ofrecerte <span class="fw-bold">las mejores rutinas.</span></p>
+                        <a class="btn w-100 btn-primary fw-medium"
+                           asp-controller="Home" asp-action="index">Volver</a>
+                    </div>
+                }
             </div>
         </div>
+    </div>
 </div>

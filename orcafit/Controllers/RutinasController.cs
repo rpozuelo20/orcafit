@@ -48,8 +48,65 @@ namespace orcafit.Controllers
                 return RedirectToAction("ErrorRutinas");
             }
         }
-        //  Vista de rutina:
-        [AuthorizeUsuarios]
+        [HttpPost]
+        public async Task<IActionResult> Index(string nombre, string categoria)
+        {
+            ViewBag.Categorias = await this.service.GetCategoriasAsync();
+            List<Rutina> rutinas = await this.service.GetRutinasAsync();
+            if (rutinas != null)
+            {
+                if(nombre!=null && categoria == null)
+                {
+                    List<Rutina> buscador = new List<Rutina>();
+                    foreach (Rutina rutina in rutinas)
+                    {
+                        if (rutina.Nombre.Contains(nombre))
+                        {
+                            buscador.Add(rutina);
+                        }
+                    }
+                    Thread.Sleep(1000);
+                    return View(buscador);
+                } else if(nombre==null && categoria != null)
+                {
+                    List<Rutina> buscador = new List<Rutina>();
+                    foreach (Rutina rutina in rutinas)
+                    {
+                        if (rutina.Categoria.Contains(categoria))
+                        {
+                            buscador.Add(rutina);
+                        }
+                    }
+                    Thread.Sleep(1000);
+                    return View(buscador);
+                }
+                else if(nombre!=null && categoria != null)
+                {
+                    List<Rutina> buscador = new List<Rutina>();
+                    foreach (Rutina rutina in rutinas)
+                    {
+                        if (rutina.Nombre.Contains(nombre) && rutina.Categoria.Contains(categoria))
+                        {
+                            buscador.Add(rutina);
+                        }
+                    }
+                    Thread.Sleep(1000);
+                    return View(buscador);
+                }
+                else
+                {
+                    Thread.Sleep(1000);
+                    return View(rutinas);
+                }
+            }
+            else
+            {
+                Thread.Sleep(1000);
+                return RedirectToAction("ErrorRutinas");
+            }
+        }
+            //  Vista de rutina:
+            [AuthorizeUsuarios]
         public async Task<IActionResult> Rutina(int id)
         {
             string token = HttpContext.User.FindFirst("TOKEN").Value;
