@@ -4,3 +4,19 @@
 .first-child-nomargin > h2:first-child{
     margin-top: 0px !important;
 }
+
+.custom-rutinas {
+    max-height: calc(100vh - 134px);
+    height: calc(100vh - 134px);
+    min-height: calc(100vh - 134px);
+}
+.custom-rutinas div:last-child{
+    margin-bottom: 0px!important;
+}
+@media (max-width: 991px) {
+    .custom-rutinas {
+        max-height: calc(100vh - 266px);
+        height: calc(100vh - 266px);
+        min-height: calc(100vh - 266px);
+    }
+}
