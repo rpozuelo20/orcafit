@@ -76,5 +76,22 @@ namespace orcafit.Services
                     await client.PutAsync(request, content);
             }
         }
+        public async Task VerificarUsuarioAsync(int id)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                string request = "/api/usuarios/verificarusuario";
+                client.BaseAddress = this.UriApi;
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(this.Header);
+                Usuario usuario = new Usuario();
+                usuario.IdUser = id;
+                string json = JsonConvert.SerializeObject(usuario);
+                StringContent content = new StringContent
+                    (json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response =
+                    await client.PutAsync(request, content);
+            }
+        }
     }
 }

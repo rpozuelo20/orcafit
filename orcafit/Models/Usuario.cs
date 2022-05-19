@@ -15,5 +15,6 @@ namespace orcafit.Models
         public string Role { get; set; }
         public string Imagen { get; set; }
         public DateTime Fecha { get; set; }
+        public int Verificacion { get; set; }
     }
 }
