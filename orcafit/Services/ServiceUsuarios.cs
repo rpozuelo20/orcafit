@@ -62,7 +62,7 @@ namespace orcafit.Services
         {
             using (HttpClient client = new HttpClient())
             {
-                string request = "/api/usuarios";
+                string request = "/api/usuarios/updateimagenusuario";
                 client.BaseAddress = this.UriApi;
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(this.Header);
@@ -76,16 +76,17 @@ namespace orcafit.Services
                     await client.PutAsync(request, content);
             }
         }
-        public async Task VerificarUsuarioAsync(int id)
+        public async Task UpdateTierUsuarioAsync(string tier, string token)
         {
             using (HttpClient client = new HttpClient())
             {
-                string request = "/api/usuarios/verificarusuario";
+                string request = "/api/usuarios/updatetierusuario";
                 client.BaseAddress = this.UriApi;
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(this.Header);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 Usuario usuario = new Usuario();
-                usuario.IdUser = id;
+                usuario.Tier = tier;
                 string json = JsonConvert.SerializeObject(usuario);
                 StringContent content = new StringContent
                     (json, Encoding.UTF8, "application/json");

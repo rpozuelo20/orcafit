@@ -92,15 +92,6 @@ namespace orcafit.Controllers
                 return View();
             }
         }
-        //  Vista de verificacion:
-        public IActionResult VerificarUsuarioStart()
-        {
-            return View();
-        }
-        public IActionResult VerificarUsuarioEnd()
-        {
-            return View();
-        }
         //  Vista de signup:
         public IActionResult SignUp()
         {

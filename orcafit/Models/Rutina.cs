@@ -16,5 +16,6 @@ namespace orcafit.Models
         public string Imagen { get; set; }
         public string Categoria { get; set; }
         public DateTime Fecha { get; set; }
+        public string Tier { get; set; }
     }
 }

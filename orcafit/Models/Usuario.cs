@@ -12,9 +12,10 @@ namespace orcafit.Models
         public int IdUser { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
+        public string Email { get; set; }
+        public string Tier { get; set; }
         public string Role { get; set; }
         public string Imagen { get; set; }
         public DateTime Fecha { get; set; }
-        public int Verificacion { get; set; }
     }
 }
